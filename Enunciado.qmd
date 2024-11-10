@@ -23,17 +23,18 @@ library(ggplot2)
 library(dplyr)
 library(GGally)
 library(Hotelling)
+library(MASS)
 ```
 
 Elige un tema que te interese (finanzas, medio ambiente, educación, cine, entre otros).
 En este taller, aplicarás los pasos del método científico (ver sección 1.1 de los apuntes de la asignatura) para abordar, con datos simulados, una problemática relacionada con el tema elegido.
 Deberás presentar un informe de tu proyecto siguiendo la estructura detallada en el documento “Recomendaciones para escribir informes de proyectos en Estadística,” que se encuentra en la sección "Práctica" de la página del curso en Aula Digital.
 
-### Primer paso:
+## Primer paso:
 
 Define los objetivos de tu trabajo: Describe la hipótesis general que deseas investigar y especifica los objetivos específicos necesarios para validar o refutar dicha hipótesis.
 
-#### Respuesta:
+### Respuesta:
 
 El cambio climático está provocando un aumento en la temperatura media global, lo que a su vez incrementa la frecuencia y severidad de fenómenos meteorológicos extremos, como olas de calor y lluvias intensas, como hemos visto esta última semana en Valencia.
 
@@ -56,13 +57,13 @@ Evaluar posibles limitaciones del análisis:
 
 Finalmente, identificaremos posibles limitaciones en la simulación de datos y en la interpretación de los resultados, especialmente dado el uso de datos simulados.I proporcionaremos sugerencias para análisis futuros con datos reales y posibles mejoras en la metodología.
 
-### Segundo paso:
+## Segundo paso:
 
 Define las variables clave para probar tu hipótesis.
 Asegúrate de incluir al menos cuatro variables cuantitativas, tres ordinales y dos nominales.
 Indica las unidades de medida para las variables cuantitativas y los niveles para las variables nominales y ordinales.
 
-#### Respuesta
+### Respuesta
 
 ```{r}
 # Definimos el rango de estudio
@@ -127,10 +128,10 @@ data <- data.frame(
 )
 
 # Visualizar las primeras filas del Data Frame para verificar las variables
-head(data)
+#head(data)
 
 # Resumen de las variables para confirmar el tipo de datos y sus valores
-summary(data)
+#summary(data)
 ```
 
 A continuación, simula los datos en R de acuerdo a las siguientes pautas:
@@ -174,10 +175,10 @@ tabla1 <- data.frame(
 )
 
 # Visualizar las primeras filas de la tabla de datos simulados
-head(tabla1)
+#head(tabla1)
 
 # Resumen de la tabla de datos para verificar tipos de variables y rangos
-summary(tabla1)
+#summary(tabla1)
 ```
 
 -   **Tabla 1**: Genera una tabla con al menos 100 observaciones y las variables definidas en el paso anterior, asegurate que las variables cuantitativas sigan una distribución normal multivariante. A continuación, te presento un ejemplo que simula datos de una encuesta aplicada a estudiantes de secundaria sobre sus hábitos de estudio y rendimiento y que incluye información sobre su contexto de vida, como horas de sueño y tiempo de traslado a la escuela. Este ejemplo no lo debes usar en tu proyecto, solo es para darte una idea de lo que te pido hacer.
@@ -209,7 +210,7 @@ rendimiento_estudiantil <- data.frame(
   nivel_interes = ordered(sample(1:5, 150, replace = TRUE), labels = c("Muy Bajo", "Bajo", "Medio", "Alto", "Muy Alto")),
   habito_lectura = ordered(sample(1:5, 150, replace = TRUE), labels = c("Nada", "Poco", "Regular", "Frecuente", "Muy Frecuente"))
 )
-head(rendimiento_estudiantil)
+#head(rendimiento_estudiantil)
 ```
 
 -   **Tabla 2**: Consigue algunos datos en Internet que puedas utilizar para ayudar a resolver tu problema (una variable o dos basta), algunas ideas de dónde buscar son: [datos abiertos del Gobierno de España](https://datos.gob.es/es/), [INE](https://www.ine.es/ss/Satellite?L=0&c=Page&cid=1259942408928&p=1259942408928&pagename=ProductosYServicios%2FPYSLayout), [Kaggle](https://www.kaggle.com/), etc.
@@ -222,10 +223,10 @@ library(readr)
 tabla2 <- read_csv("climate_change_indicators.csv")
 
 # Visualizar las primeras filas del conjunto de datos
-head(tabla2)
+#head(tabla2)
 
 # Resumen de los datos
-summary(tabla2)
+#summary(tabla2)
 
 ```
 
@@ -245,26 +246,26 @@ tabla_combinada <- tabla1 %>%
   left_join(tabla2, by = "id")
 
 # Verificar las primeras filas de la tabla combinada
-head(tabla_combinada)
+#head(tabla_combinada)
 
 # Resumen de la tabla combinada
-summary(tabla_combinada)
+#summary(tabla_combinada)
 ```
 
-### Tercer paso
+## Tercer paso
 
 Realiza un análisis descriptivo multivariantes de tu base de datos de acuerdo a los objetivos de tu trabajo.
 Describe lo observado en el contexto del problema.
 
 Para las variables cuantitativas de tu base de datos, calcula e interpreta la información que proporciona la varianza generalizada y la varianza total
 
-#### Respuesta
+### Respuesta
 
 ```{r}
 # Paso 1: Análisis Descriptivo de Variables Cuantitativas
 
 # 1.1 Resumen estadístico de todas las variables cuantitativas en tabla_combinada
-summary(tabla_combinada)
+#summary(tabla_combinada)
 
 # 1.2 Matriz de correlación (sin especificar nombres, seleccionando automáticamente solo las columnas numéricas)
 matriz_correlacion <- tabla_combinada %>% 
@@ -273,12 +274,12 @@ matriz_correlacion <- tabla_combinada %>%
 #print(matriz_correlacion)
 
 # 1.3 Visualización de la correlación con ggpairs (sin especificar nombres)
-ggpairs(tabla_combinada %>% select_if(is.numeric), 
-        title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
+#ggpairs(tabla_combinada %>% select_if(is.numeric), 
+ #       title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
 
 # 1.3 Visualización de la correlación con ggpairs
-ggpairs(tabla_combinada, columns = c("temp_global", "heatwaves", "heavy_rain", "precipitation_total"), 
-        title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
+#ggpairs(tabla_combinada, columns = c("temp_global", "heatwaves", "heavy_rain", "precipitation_total"), 
+#        title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
 
 ```
 
@@ -319,12 +320,12 @@ tabla_combinada %>%
 
 ```
 
-### Cuarto paso
+## Cuarto paso
 
 Selecciona una de las variables no cuantitativas y modelízala con una distribución multinomial, debes estimar sus parámetros.
 Utiliza el modelo para calcular la probabilidad de que ocurra un evento de interés en una muestra de tamaño 20, relevante para tu problema.
 
-#### Respuesta
+### Respuesta
 
 ```{r}
 # Paso 1: Calcular las probabilidades de cada tipo de evento
@@ -361,14 +362,14 @@ cat("La probabilidad de observar al menos una 'Ola de Calor' en una muestra de t
 
 Este análisis te permite evaluar la probabilidad de ocurrencia de eventos específicos en una muestra, lo cual es útil para comprender la frecuencia esperada de eventos extremos en el contexto del cambio climático.
 
-### Quinto paso
+## Quinto paso
 
 Con las variables cuantitativas de tu base de datos, ajusta un modelo de regresión multivariante en la forma:
 
 $$Y=\beta_0+\beta_1 X_1+ \cdots + \beta_p X_p + \epsilon$$ Donde $Y$ es la variable cuantitativa que deseas explicar en función del resto de variables cuantitativas registradas.
 Además, calcula la función de score e interpreta su resultado en el contexto del problema.
 
-#### Respuesta
+### Respuesta
 
 "El score es la diferencia entre los valores observados y los valores predichos por el modelo, lo que se conoce como residuales. Analizaremos los residuales para evaluar la precisión y ajuste del modelo."
 
@@ -379,7 +380,7 @@ Además, calcula la función de score e interpreta su resultado en el contexto d
 modelo <- lm(temp_global ~ dias_calor + dias_lluvia + precipitacion_total, data = tabla_combinada)
 
 # Resumen del modelo para ver los coeficientes y el ajuste
-summary(modelo)
+#summary(modelo)
 
 # Cálculo de la función de score: los residuales del modelo
 residuales <- resid(modelo)
@@ -404,14 +405,14 @@ abline(h = 0, col = "red", lwd = 2)
 
 ```
 
-### Sexto paso
+## Sexto paso
 
 Realiza un contraste de hipótesis de dos medias multivariante que sea relevante para tu problema.
 Por ejemplo, podrías evaluar si el vector de medias de la variable cuantitativa de interés $Y$ es el mismo para dos niveles distintos de la variable no cuantitativa que modelaste como multinomial en el paso anterior.
 Ejecuta el contraste tanto teóricamente como con la función hotelling.test en R.
 Escribe la conclusión del contraste en el contexto de tu problema.
 
-#### Respuesta
+### Respuesta
 
 **Planteamiento del Contraste de Hipótesis**
 
@@ -440,7 +441,6 @@ En este contraste de hipótesis, usamos la prueba de Hotelling's ( T\^2 ) para e
 # Filtrar los datos para el grupo de eventos de "Ola de Calor"
 calor <- tabla_combinada %>%
   filter(tipo_evento1 == "Ola de Calor")
-calor
 
 # Filtrar los datos para el grupo de eventos de "Sequía"
 sequia <- tabla_combinada %>%
@@ -465,7 +465,7 @@ Por lo tanto, como el p_valor es $0.9672$, tenemos que no podemos rechazar la hi
 Aunque el valor p es alto, es importante recordar que esta conclusión depende de la calidad de los datos, el tamaño de la muestra y los supuestos del modelo.
 Si tienes dudas sobre la calidad de los datos o el tamaño de la muestra, puedes considerar revisar esos aspectos para fortalecer el análisis.
 
-### Último paso
+## Último paso
 
 Recuerda que:
 
