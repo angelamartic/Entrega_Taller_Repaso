@@ -25,6 +25,7 @@ library(GGally)
 library(Hotelling)
 library(MASS)
 library(readr)
+library(tidyr)
 ```
 
 El cambio climático está provocando un aumento en la temperatura media global, lo que a su vez incrementa la frecuencia y severidad de fenómenos meteorológicos extremos, como olas de calor y lluvias intensas, como hemos visto esta última semana en Valencia.
@@ -121,23 +122,37 @@ tabla2 <- read_csv("climate_change_indicators.csv")
 # Crear el mapeo de países a regiones
 region_paises <- list(
   "America Latina" = c("Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Costa Rica", "Cuba", 
-                      "Dominican Republic", "Ecuador", "El Salvador", "Guatemala", "Honduras", 
-                      "Nicaragua", "Panama", "Paraguay", "Peru", "Uruguay", "Venezuela", 
-                      "Haiti", "Jamaica", "Trinidad and Tobago", "Bahamas", "Barbados", 
-                      "Belize", "Guyana", "Suriname", "Saint Kitts and Nevis", 
-                      "Saint Lucia", "Saint Vincent and the Grenadines", "Grenada"),
-  "America del Norte" = c("United States", "Canada", "Mexico", "Bermuda", "Greenland", "Saint Pierre and Miquelon"),
+                      "Barbados", "Belize", "Bolivia", 
+                      "Brazil", "British Virgin Islands", "Cayman Islands", 
+                          "Chile", "Colombia", "Costa Rica", "Cuba", "Dominica", 
+                          "Dominican Rep.", "Ecuador", "El Salvador", 
+                          "Falkland Islands (Malvinas)", "Grenada", "Guadeloupe", 
+                          "Guatemala", "Guyana", "Haiti", "Honduras", 
+                          "Jamaica", "Martinique", "Mexico", "Montserrat", 
+                          "Nicaragua", "Panama", "Paraguay", "Peru",  "Grenada"),
+  "America del Norte" = c("United States", "Canada", "Mexico", "Bermuda", "Greenland", "French Polynesia", "Kiribati",        
+             "Micronesia, Federated States of", "Nauru, Rep. of", 
+             "New Caledonia", "New Zealand", "Niue", "Norfolk Island", 
+             "Palau, Rep. of", "Papua New Guinea", "Samoa", 
+             "Solomon Islands", "Tokelau", "Tonga", "Saint Pierre and Miquelon"), #para que haya mas datos cogemos también los de Oceania aquí dentro
   "Asia" = c("China", "India", "Japan", "South Korea", "Indonesia", "Pakistan", "Bangladesh", 
              "Vietnam", "Philippines", "Iran", "Turkey", "Thailand", "Myanmar", "Iraq", 
              "Afghanistan", "Saudi Arabia", "Uzbekistan", "Malaysia", "Yemen", "Nepal", 
-             "Sri Lanka", "Kazakhstan", "Syria", "Cambodia", "Jordan", "Azerbaijan", 
-             "United Arab Emirates", "Tajikistan", "Israel", "Laos", "Lebanon", "Kyrgyzstan", 
+             "Sri Lanka", "Kazakhstan", "Syria","Afghanistan, Islamic Rep. of", "Armenia, Rep. of", "Azerbaijan, Rep. of", 
+          "Korea, Rep. of", "Kuwait", "Kyrgyz Rep.", "Lao People's Dem. Rep.", 
+          "Malaysia", "Maldives", "Mongolia", "Myanmar", "Nepal", 
+          "Thailand", "Tajikistan", "Israel", "Laos", "Lebanon", "Kyrgyzstan", 
              "Turkmenistan", "Singapore", "Oman", "State of Palestine"),
   "Europa" = c("United Kingdom", "Germany", "France", "Italy", "Spain", "Ukraine", "Poland", 
                "Romania", "Netherlands", "Belgium", "Czech Republic", "Greece", "Portugal", 
                "Sweden", "Hungary", "Belarus", "Austria", "Switzerland", "Bulgaria", "Serbia", 
-               "Denmark", "Finland", "Slovakia", "Norway", "Ireland", "Croatia", "Moldova", 
-               "Bosnia and Herzegovina", "Albania", "Lithuania", "North Macedonia", "Slovenia", 
+               "Denmark", "Finland", "Albania", "Andorra, Principality of", "Austria", "Belarus, Rep. of", 
+            "Italy", "Latvia", "Liechtenstein", "Lithuania", 
+            "Luxembourg", "Malta", "Moldova, Rep. of", "Monaco", 
+            "Montenegro", "Netherlands, The", "North Macedonia, Republic of", 
+            "Norway", "Poland, Rep. of", "Portugal", "Romania", 
+            "Russian Federation", "San Marino, Rep. of", "Serbia, Rep. of", 
+            "Bosnia and Herzegovina", "Albania", "Lithuania", "North Macedonia", "Slovenia", 
                "Latvia", "Estonia", "Luxembourg", "Malta", "Iceland", "Andorra", "Monaco", 
                "Liechtenstein", "San Marino"),
   "Africa" = c("Nigeria", "Ethiopia", "Egypt", "DR Congo", "Tanzania", "South Africa", "Kenya", 
@@ -146,10 +161,24 @@ region_paises <- list(
                "Malawi", "Zambia", "Senegal", "Chad", "Somalia", "Zimbabwe", "Guinea", 
                "Rwanda", "Benin", "Burundi", "Tunisia", "South Sudan", "Togo", "Sierra Leone", 
                "Libya", "Congo", "Liberia", "Central African Republic", "Mauritania", "Eritrea", 
-               "Namibia", "Gambia", "Botswana", "Gabon", "Lesotho", "Eswatini", "Guinea-Bissau", 
+               "Namibia", "Gambia", "Botswana", "Burkina Faso", 
+            "Burundi", "Cabo Verde", "Cameroon", "Central African Rep.", 
+            "Chad", "Comoros, Union of the", "Congo, Dem. Rep. of the", 
+            "Congo, Rep. of", "Djibouti", "Egypt, Arab Rep. of", 
+            "Equatorial Guinea, Rep. of", "Eritrea, The State of", 
+            "Eswatini, Kingdom of", "Ethiopia, The Federal Dem. Rep. of", 
+            "Gabon", "Gambia, The", "Ghana", "Guinea", "Guinea-Bissau", 
+            "Ivory Coast", "Kenya", "Lesotho, Kingdom of", "Liberia", 
+            "Libya", "Madagascar, Rep. of", "Malawi", "Mali", 
+            "Mauritania, Islamic Rep. of", "Mauritius", "Morocco", 
+            "Mozambique, Rep. of", "Namibia", "Niger", "Nigeria", 
+            "Rwanda", "São Tomé and Príncipe, Dem. Rep. of", 
+            "Senegal", "Seychelles", "Sierra Leone", "Somalia", 
+            "South Africa", "South Sudan, Rep. of", "Sudan", 
+            "Tanzania, United Rep. of", "Togo", "Tunisia", 
+            "Uganda", "Zambia", "Zimbabwe", "Gabon", "Lesotho", "Eswatini", "Guinea-Bissau", 
                "Equatorial Guinea", "Seychelles", "Sao Tome and Principe", "Comoros", "Cabo Verde")
 )
-
 
 # Crear un dataframe para el mapeo de regiones
 region_df <- stack(region_paises)
@@ -175,11 +204,9 @@ data_final<- data_final %>%
 # Ordenar por región y luego por el identificador
 tabla2 <- data_final %>%
   arrange(id, region)
+
 # Mostrar los primeros resultados
 head(tabla2, 10)
-
-
-
 
 ```
 
@@ -193,6 +220,8 @@ Finalmente, uniremos la dos tablas creados creando unatabla unificada a partir d
 # Unir ambas tablas por el identificador común 'id'
 tabla_combinada <- tabla1 %>%
   left_join(tabla2, by = "id")
+tabla_combinada <- tabla_combinada %>%
+  drop_na()
 # Verificar las primeras filas de la tabla combinada
 head(tabla_combinada)
 
