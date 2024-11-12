@@ -210,7 +210,7 @@ tabla2 <- data_final %>%
   arrange(id, region)
 
 # Mostrar los primeros resultados
-head(tabla2, 10)
+#head(tabla2, 10)
 
 ```
 
@@ -253,7 +253,7 @@ ggpairs(tabla_combinada %>%
         title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
 
 ```
-
+COMENTAR
 
 Ahora, vamos a ver 3 cosas a partir de los graficos de barras. Vamos a visualizar que tipo de suceso és el más freqüente, y cual es la intensidad con la que ocurren.
 
@@ -286,7 +286,7 @@ A partir de estos tres gràfics de barras, vemos que el evento que más se produ
 
 Ahora vamos a ver, que tipo de evntos era más frequente, por cada periodo de tiempo.
 
-```{r}
+```{r, echo=FALSE}
 tabla_combinada %>%
   ggplot(aes(x = periodo_de_tiempo1, fill = tipo_evento1)) +
   geom_bar(position = "dodge") +
@@ -307,7 +307,7 @@ Vemos facilmente, que la lluvia intensa siempre esta entre los tres primeros. En
 
 Ahora, vamos a hacer el grafico del mosaico, con respecto a la tabla1
 
-```{r}
+```{r, echo=FALSE}
 # Convertir a tabla de frecuencias de dos variables categóricas
 tabla_frecuencias <- table(tabla_combinada$region1, tabla_combinada$tipo_evento1)
 
@@ -318,17 +318,27 @@ mosaicplot(tabla_frecuencias, main = "Distribución de Eventos por Región",
 
 ```
 El gráfico muestra la distribución de eventos climáticos/extremos en diferentes regiones del mundo, como África, América del Norte, América Latina, Asia, y Europa.
+
 En el eje vertical está el tipo de evento (como ola de calor, lluvia intensa, inundación, y sequía), mientras que en el eje horizontal están las regiones geográficas.
+
 Sabemos que la intensidad del color y el tamaño de los bloques representan la frecuencia o relevancia de cada tipo de evento en cada región. Los bloques más oscuros y grandes indican una mayor prevalencia de ese tipo de evento en esa región específica.
+
 Por ejemplo, en África y América del Norte, el bloque para olas de calor es grande y oscuro, sugiriendo que estos eventos son más comunes o impactantes en esas regiones.
+
 Observamos entonces que:
+
 - Olas de Calor: Son especialmente frecuentes en África, América del Norte y Europa (bloques grandes y oscuros en estas regiones), lo que podría reflejar patrones de cambio climático que afectan más a estas áreas.
+
 - Lluvia Intensa: Aparece de manera más equilibrada en casi todas las regiones, aunque es especialmente notable en Asia, donde el bloque es más grande.
+
 - Inundación: También es más prominente en Asia, seguida de América del Norte y América Latina, lo cual puede estar relacionado con las características climáticas y geográficas de estas regiones (monzones en Asia, huracanes en América).
+
 - Sequía: Es relevante en África y América Latina, aunque es menos significativa en otras regiones como Europa y América del Norte.
 
 Por lo tanto, el mosaico sugiere que distintas regiones enfrentan distintos desafíos climáticos. África, América del Norte y Europa enfrentan principalmente olas de calor, mientras que Asia enfrenta lluvias intensas e inundaciones de manera más notable.
+
 La sequía es un problema en África y América Latina, indicando que estas regiones podrían tener problemas relacionados con la disponibilidad de agua y la agricultura.
+
 És decir, este gráfico refleja cómo el cambio climático y los eventos extremos afectan de forma diferenciada a las regiones.
 
 
