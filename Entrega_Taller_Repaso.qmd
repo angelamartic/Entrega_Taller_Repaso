@@ -57,7 +57,7 @@ En primer lugar, vamos a definir la variables clave para nuestra hipòtesis, don
     - Número de Días de Olas de Calor (días)
     - Número de Días de Lluvias Intensas (días)
     - Precipitación Anual Total en milímetros (mm)
-  - Variables Ordinales
+  - Variables Cualitativas (hacer mosaico) 
     - Severidad de las Olas de Calor (Baja, Moderada, Alta, Extrema)
     - Intensidad de Lluvias Intensas (Baja, Moderada, Alta)
     - Período de Tiempo ("1980-1990", "1991-2000", "2001-2010", "2011-2020")
@@ -101,45 +101,98 @@ tabla1 <- data.frame(
   periodo_de_tiempo1 = ordered(sample(1:4, 150, replace = TRUE), labels = c("1980-1990", "1991-2000", "2001-2010", "2011-2020"))
 )
 
-# Visualizar las primeras filas de la tabla de datos simulados
-head(tabla1)
 
-# Resumen de la tabla de datos para verificar tipos de variables y rangos
-#summary(tabla1)
+# Ordenar por 'region1' y añadir columna de identificador
+tabla1 <- tabla1 %>%
+  arrange(region1) %>%             # Ordenar por región
+  mutate(id = row_number()) %>%     # Añadir identificador único
+  dplyr::select(id, everything())          # Mover 'id' a la primera columna
+
+# Ver las primeras filas para verificar
+#head(tabla1)
+
 ```
 
 Sguidamente, a partir de [Kaggle](https://www.kaggle.com/), hemos extraído un .csv llamamodo como climate_change_indicators.csv de donde nos quedamos solo con la variable temperatura global per cada uno de los años, que són desde el 1961 hasta el 2022.
 
-```{r, echo=FALSE}
-# Leer el archivo CSV descargado
+```{r}
 tabla2 <- read_csv("climate_change_indicators.csv")
-#colnames(tabla2)
 
-datos_tabla2 <- tabla2 %>%
-  pivot_longer(cols = starts_with("F"), 
-               names_to = "Año", 
-               values_to = "Temperatura")
-datos_tabla2$Año <- gsub("F", "", datos_tabla2$Año)
-datos_tabla2.1 <- datos_tabla2[, c("Country", "Año", "Temperatura")]
-#datos_tabla2.1
+# Crear el mapeo de países a regiones
+region_paises <- list(
+  "America Latina" = c("Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Costa Rica", "Cuba", 
+                      "Dominican Republic", "Ecuador", "El Salvador", "Guatemala", "Honduras", 
+                      "Nicaragua", "Panama", "Paraguay", "Peru", "Uruguay", "Venezuela", 
+                      "Haiti", "Jamaica", "Trinidad and Tobago", "Bahamas", "Barbados", 
+                      "Belize", "Guyana", "Suriname", "Saint Kitts and Nevis", 
+                      "Saint Lucia", "Saint Vincent and the Grenadines", "Grenada"),
+  "America del Norte" = c("United States", "Canada", "Mexico", "Bermuda", "Greenland", "Saint Pierre and Miquelon"),
+  "Asia" = c("China", "India", "Japan", "South Korea", "Indonesia", "Pakistan", "Bangladesh", 
+             "Vietnam", "Philippines", "Iran", "Turkey", "Thailand", "Myanmar", "Iraq", 
+             "Afghanistan", "Saudi Arabia", "Uzbekistan", "Malaysia", "Yemen", "Nepal", 
+             "Sri Lanka", "Kazakhstan", "Syria", "Cambodia", "Jordan", "Azerbaijan", 
+             "United Arab Emirates", "Tajikistan", "Israel", "Laos", "Lebanon", "Kyrgyzstan", 
+             "Turkmenistan", "Singapore", "Oman", "State of Palestine"),
+  "Europa" = c("United Kingdom", "Germany", "France", "Italy", "Spain", "Ukraine", "Poland", 
+               "Romania", "Netherlands", "Belgium", "Czech Republic", "Greece", "Portugal", 
+               "Sweden", "Hungary", "Belarus", "Austria", "Switzerland", "Bulgaria", "Serbia", 
+               "Denmark", "Finland", "Slovakia", "Norway", "Ireland", "Croatia", "Moldova", 
+               "Bosnia and Herzegovina", "Albania", "Lithuania", "North Macedonia", "Slovenia", 
+               "Latvia", "Estonia", "Luxembourg", "Malta", "Iceland", "Andorra", "Monaco", 
+               "Liechtenstein", "San Marino"),
+  "Africa" = c("Nigeria", "Ethiopia", "Egypt", "DR Congo", "Tanzania", "South Africa", "Kenya", 
+               "Uganda", "Algeria", "Sudan", "Morocco", "Angola", "Mozambique", "Ghana", 
+               "Madagascar", "Cameroon", "Côte d'Ivoire", "Niger", "Burkina Faso", "Mali", 
+               "Malawi", "Zambia", "Senegal", "Chad", "Somalia", "Zimbabwe", "Guinea", 
+               "Rwanda", "Benin", "Burundi", "Tunisia", "South Sudan", "Togo", "Sierra Leone", 
+               "Libya", "Congo", "Liberia", "Central African Republic", "Mauritania", "Eritrea", 
+               "Namibia", "Gambia", "Botswana", "Gabon", "Lesotho", "Eswatini", "Guinea-Bissau", 
+               "Equatorial Guinea", "Seychelles", "Sao Tome and Principe", "Comoros", "Cabo Verde")
+)
 
-#Lo seu es que puc agafar també la variable countri però crec q la temperatura esta depenent del Cambio de temperatura con respecto a una climatología de referencia, correspondiente al período 1951-1980
+
+# Crear un dataframe para el mapeo de regiones
+region_df <- stack(region_paises)
+colnames(region_df) <- c("Country", "region")
+
+# Unir el mapeo con los datos
+data2 <- merge(tabla2, region_df, by.x = "Country", by.y = "Country", all.x = TRUE)
+
+# Filtrar y ordenar los datos por región y país
+tabla2 <- data2 %>%
+  dplyr::select(Country, region, F2021, F2022) %>%
+  filter(!is.na(region)) %>%
+  arrange(region, Country)
+
+# Añadir una columna de identificador
+data_final <- tabla2 %>%
+  mutate(id = row_number()) %>%  # Añadir ID secuencial
+  dplyr::select(id, everything())  # Eliminar 'Country' y reordenar
+
+data_final<- data_final %>%
+  dplyr::select(-Country)
+
+# Ordenar por región y luego por el identificador
+tabla2 <- data_final %>%
+  arrange(id, region)
+# Mostrar los primeros resultados
+head(tabla2, 10)
+
+
+
 
 ```
+
+
+
 
 Finalmente, uniremos la dos tablas creados creando unatabla unificada a partir de la cual haremos el analisi para extraer las conclusiones.
 
 ```{r, echo=FALSE}
-# Crear un identificador único para cada fila de ambas tablas
-tabla1 <- tabla1 %>%
-  mutate(id = row_number())
-datos_tabla2.1 <- datos_tabla2.1 %>%
-  mutate(id = row_number())
 
 # Unir ambas tablas por el identificador común 'id'
 tabla_combinada <- tabla1 %>%
-  left_join(datos_tabla2.1, by = "id")
-
+  left_join(tabla2, by = "id")
 # Verificar las primeras filas de la tabla combinada
 head(tabla_combinada)
 
@@ -161,13 +214,11 @@ matriz_correlacion <- tabla_combinada %>%
 #print(matriz_correlacion)
 
 #Visualización de la correlación con ggpairs (sin especificar nombres)
-ggpairs(tabla_combinada %>% select_if(is.numeric), 
+ggpairs(tabla_combinada %>% 
+          dplyr::select(-id) %>%
+          select_if(is.numeric), 
         title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
-#que es id?
 
-#Visualización de la correlación con ggpairs
-ggpairs(tabla_combinada, columns = c("temp_global1", "dias_calor1", "dias_lluvia1", "precipitacion_total1"), 
-        title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
 ```
 
 
@@ -288,7 +339,97 @@ abline(h = 0, col = "red", lwd = 2)
 
 
 ```
+# Distancia de Mahalon
+```{r}
+# Seleccionar solo las columnas numéricas
+datos_num <- tabla_combinada %>% select_if(is.numeric)
 
+# Verificar si hay valores NA
+#summary(datos_num)
+
+# Eliminar filas con valores NA
+#datos_num <- na.omit(datos_num)
+
+# Calcular la distancia Mahalanobis al cuadrado
+mahalanobis_d2 <- apply(datos_num, 1, function(x) {
+  mahalanobis(x, center = colMeans(datos_num), cov = cov(datos_num))^2
+})
+
+tabla_combinada$mahalanobis_d2 <- mahalanobis_d2
+
+# Verificar que la columna 'mahalanobis_d2' tiene valores
+head(mahalanobis_d2)
+
+
+```
+```{r}
+# Asumiendo que tus distancias de Mahalanobis al cuadrado están en la variable `mahalanobis_d2`
+
+# Verificar que la columna mahalanobis_d2 es numérica
+str(tabla_combinada$mahalanobis_d2)
+
+# Si no es un vector numérico, convertirlo a numérico:
+tabla_combinada$mahalanobis_d2 <- as.numeric(tabla_combinada$mahalanobis_d2)
+
+# Eliminar cualquier valor NA en caso de que existan
+#tabla_combinada <- tabla_combinada %>% filter(!is.na(mahalanobis_d2))
+
+# Verificar la distribución de las distancias
+summary(tabla_combinada$mahalanobis_d2)
+
+# Número de variables (grados de libertad) - k
+k <- ncol(datos_num)
+
+# Crear el histograma de las distancias Mahalanobis al cuadrado
+hist(tabla_combinada$mahalanobis_d2, 
+     breaks = 20,                          # Número de "barras" en el histograma
+     col = "skyblue",                      # Color de las barras
+     border = "black",                     # Color del borde de las barras
+     probability = TRUE,                    # Normaliza el histograma para que sea una densidad
+     main = "Distribución de Distancias Mahalanobis al Cuadrado",  # Título del gráfico
+     xlab = "Distancia Mahalanobis al Cuadrado",  # Etiqueta del eje x
+     ylab = "Densidad")                    # Etiqueta del eje y
+
+# Agregar la curva de la distribución Chi-cuadrado con k grados de libertad
+curve(dchisq(x, df = k), 
+      col = "red",                        # Color de la curva
+      lwd = 2,                            # Grosor de la línea de la curva
+      add = TRUE)                         # Agregar la curva sobre el histograma
+
+```
+
+
+```{r}
+# Calcular las distancias Mahalanobis al cuadrado
+k <- ncol(datos_num)  # Número de variables (grados de libertad)
+
+mahalanobis_d2 <- datos_num %>%
+  as.matrix() %>%
+  apply(1, function(x) mahalanobis(x, center = colMeans(datos_num), cov = cov(datos_num))^2)
+
+# Añadir las distancias al data frame original
+tabla_combinada <- tabla_combinada %>%
+  mutate(mahalanobis_d2 = mahalanobis_d2)
+
+
+# Ver las primeras filas con las distancias
+head(tabla_combinada)
+
+# Número de variables numéricas (esto es k, los grados de libertad)
+k <- ncol(datos_num)
+
+# Histograma de las distancias Mahalanobis al cuadrado
+ggplot(tabla_combinada, aes(x = mahalanobis_d2)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "skyblue", color = "black", alpha = 0.7) +
+  # Agregar la curva de la distribución Chi-cuadrado con k grados de libertad
+  stat_function(fun = dchisq, args = list(df = k), color = "red", size = 1.5) +
+  labs(title = "Distribución de Distancias Mahalanobis al Cuadrado",
+       subtitle = paste("Comparación con la distribución Chi-cuadrado con", k, "grados de libertad"),
+       x = "Distancia Mahalanobis al Cuadrado",
+       y = "Densidad") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
 
 **Planteamiento del Contraste de Hipótesis**
 
@@ -341,9 +482,6 @@ Por lo tanto, como el p_valor es $0.9672$, tenemos que no podemos rechazar la hi
 
 Aunque el valor p es alto, es importante recordar que esta conclusión depende de la calidad de los datos, el tamaño de la muestra y los supuestos del modelo.
 Si tienes dudas sobre la calidad de los datos o el tamaño de la muestra, puedes considerar revisar esos aspectos para fortalecer el análisis.
- 
-
-
 
 
 
