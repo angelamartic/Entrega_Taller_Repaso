@@ -102,7 +102,7 @@ tabla1 <- data.frame(
 )
 
 # Visualizar las primeras filas de la tabla de datos simulados
-#head(tabla1)
+head(tabla1)
 
 # Resumen de la tabla de datos para verificar tipos de variables y rangos
 #summary(tabla1)
