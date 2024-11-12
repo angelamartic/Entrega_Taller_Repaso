@@ -113,6 +113,20 @@ tabla1 <- tabla1 %>%
 #head(tabla1)
 
 ```
+# Gràfico Mosaico_Tabla1
+
+```{r}
+# Convertir a tabla de frecuencias de dos variables categóricas
+tabla_frecuencias <- table(tabla1$region1, tabla1$tipo_evento1)
+
+# Crear el gráfico de mosaico
+mosaicplot(tabla_frecuencias, main = "Distribución de Eventos por Región",
+           xlab = "Región", ylab = "Tipo de Evento", color = TRUE)
+
+
+```
+
+
 
 Sguidamente, a partir de [Kaggle](https://www.kaggle.com/), hemos extraído un .csv llamamodo como climate_change_indicators.csv de donde nos quedamos solo con la variable temperatura global per cada uno de los años, que són desde el 1961 hasta el 2022.
 
@@ -229,6 +243,8 @@ head(tabla_combinada)
 #summary(tabla_combinada)
 #No hay alguna manera de juntar años con el periodo del tiempo?
 ```
+
+
 
 # Análisis descriptivo multivariantes
 
@@ -369,6 +385,97 @@ abline(h = 0, col = "red", lwd = 2)
 
 ```
 # Distancia de Mahalon
+
+```{r}
+# Asegurarse de que la tabla combinada es solo numérica (o selecciona columnas numéricas)
+datos_num <- tabla_combinada %>% 
+  select_if(is.numeric)  # Selecciona solo las columnas numéricas para el análisis
+
+# 1. Calcular la distancia de Mahalanobis para los datos originales
+# Esto calcula la distancia de Mahalanobis al cuadrado
+dist_mahalanobis <- mahalanobis(datos_num, colMeans(datos_num), cov(datos_num))
+
+# Añadir las distancias de Mahalanobis como una nueva columna en la tabla combinada
+tabla_combinada_maha <- tabla_combinada %>%
+  mutate(mahalanobis_d2 = dist_mahalanobis)
+
+# 2. Definir la matriz de transformación T y aplicarla a los datos numéricos
+T <- matrix(c(1.2, 0.3, 0.0,
+              0.2, 1.1, 0.0,
+              0.0, 0.0, 1.5), nrow = ncol(datos_num), byrow = TRUE)
+
+# Asegurarse de que la matriz T tenga el mismo número de columnas que datos_num
+if(ncol(datos_num) != nrow(T)) {
+  stop("El número de columnas en 'datos_num' debe coincidir con el número de filas en 'T'")
+}
+
+# Aplicar la transformación a los datos numéricos
+datos_transformados <- as.matrix(datos_num) %*% T
+
+# 3. Calcular la distancia de Mahalanobis en los datos transformados
+dist_mahalanobis_transformado <- mahalanobis(datos_transformados, colMeans(datos_transformados), cov(datos_transformados))
+
+# Añadir la distancia de Mahalanobis transformada a la tabla combinada
+tabla_combinada_maha <- tabla_combinada_maha %>%
+  mutate(mahalanobis_d2_transformado = dist_mahalanobis_transformado)
+
+# Ver las primeras filas con las distancias
+head(tabla_combinada_maha)
+
+
+
+
+
+```
+
+
+```{r}
+# Cargar la librería necesaria para la visualización
+library(ggplot2)
+
+# Número de variables (grados de libertad), es decir, el número de columnas en datos_num
+k <- ncol(datos_num)
+
+# Histograma para la distancia de Mahalanobis original
+ggplot(tabla_combinada_maha, aes(x = mahalanobis_d2)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "skyblue", color = "black", alpha = 0.7) +
+  stat_function(fun = dchisq, args = list(df = k), color = "red", size = 1.5) +
+  labs(title = "Distribución de Distancias Mahalanobis al Cuadrado (Original)",
+       subtitle = paste("Comparación con la distribución Chi-cuadrado con", k, "grados de libertad"),
+       x = "Distancia Mahalanobis al Cuadrado",
+       y = "Densidad") +
+  theme_minimal()
+
+# Histograma para la distancia de Mahalanobis transformada
+ggplot(tabla_combinada_maha, aes(x = dist_mahalanobis_transformado)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "skyblue", color = "black", alpha = 0.7) +
+  stat_function(fun = dchisq, args = list(df = k), color = "red", size = 1.5) +
+  labs(title = "Distribución de Distancias Mahalanobis al Cuadrado (Transformada)",
+       subtitle = paste("Comparación con la distribución Chi-cuadrado con", k, "grados de libertad"),
+       x = "Distancia Mahalanobis Transformada al Cuadrado",
+       y = "Densidad") +
+  theme_minimal()
+
+
+```
+
+
+```{r}
+# Prueba estadística para confirmar distribución ji-cuadrado
+ks.test(dist_mahalanobis, "pchisq", df = 3)
+
+```
+
+
+
+
+
+
+
+
+
+
+
 ```{r}
 # Seleccionar solo las columnas numéricas
 datos_num <- tabla_combinada %>% select_if(is.numeric)
