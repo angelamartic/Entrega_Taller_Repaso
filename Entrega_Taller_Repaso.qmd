@@ -58,12 +58,12 @@ En primer lugar, vamos a definir la variables clave para nuestra hipòtesis, don
     - Número de Días de Lluvias Intensas (días)
     - Precipitación Anual Total en milímetros (mm)
   - Variables Ordinales
-    - Severidad de las Olas de Calor
-    - Intensidad de Lluvias Intensas
-    - Período de Tiempo
+    - Severidad de las Olas de Calor (Baja, Moderada, Alta, Extrema)
+    - Intensidad de Lluvias Intensas (Baja, Moderada, Alta)
+    - Período de Tiempo ("1980-1990", "1991-2000", "2001-2010", "2011-2020")
   - Variables Nominales
-    - Región Geográfica
-    - Tipo de Evento
+    - Región Geográfica (América del Norte, Europa, Asia, América Latina, África)
+    - Tipo de Evento (Ola de Calor, Lluvia Intensa, Sequía, Inundación)
 
 Seguidamente, generaramos una tabla, que la llamaremos como tabla1, con al menos 100 abservaciones, donde las variables cuantitativas sigan una distribución normal multivariante.
 
