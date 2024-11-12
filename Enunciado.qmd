@@ -270,12 +270,8 @@ matriz_correlacion <- tabla_combinada %>%
 #print(matriz_correlacion)
 
 # 1.3 Visualización de la correlación con ggpairs (sin especificar nombres)
-#ggpairs(tabla_combinada %>% select_if(is.numeric), 
- #       title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
-
-# 1.3 Visualización de la correlación con ggpairs
-#ggpairs(tabla_combinada, columns = c("temp_global1", "dias_calor1", "dias_lluvia1", "precipitacion_total1"), 
-#        title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
+ggpairs(tabla_combinada %>% select_if(is.numeric), 
+        title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
 
 ```
 
