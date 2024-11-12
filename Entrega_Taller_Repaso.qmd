@@ -30,10 +30,12 @@ library(tidyr)
 
 El cambio climático está provocando un aumento en la temperatura media global, lo que a su vez incrementa la frecuencia y severidad de fenómenos meteorológicos extremos, como olas de calor y lluvias intensas, como hemos visto esta última semana en Valencia.
 
+Nuestro objetivo es hacer un analisi apartir de ciertas dadas, que explicaremos más abajo, para ver si el cambio climatico es real, es decir, para ver si el cambió climatico esta influenciando en la temperatura, en las lluvias, en la sequia... 
+
 En primer lugar, vamos a analizar la tendéncia de la temperatura media global, és decir, vamos a: 
 - Examinar la evolución de la temperatura global a lo largo del periodo simulado (por ejemplo, de 2000 a 2023).
 - Confirmar si hay un incremento significativo en la temperatura media anual, lo cual es fundamental para explorar su posible relación con los fenómenos extremos.
-Para ello, haremos un análisis de series temporales y regresión lineal para identificar una tendencia significativa en los datos de temperatura global. prueva
+Para ello, haremos un análisis de series temporales y regresión lineal para identificar una tendencia significativa en los datos de temperatura global.
 
 Seguidamente, estudiaremos la frecuencia de fenómenos meteorológicos extremos a lo largo del tiempo: - Cuantificaremos el número de días con temperaturas extremas (olas de calor) y de eventos de lluvias intensas en cada año del periodo simulado.
 -Observaremos si hay un patrón creciente en la ocurrencia de estos fenómenos en las últimas décadas.
@@ -43,7 +45,8 @@ Después, examinamos la relación entre el aumento de la temperatura global y la
 - Se evaluar la relación entre los incrementos en la temperatura global y la ocurrencia de olas de calor y lluvias intensas.
 La técnica, serà un análisis de correlación entre la temperatura media anual y la frecuencia de fenómenos extremos.
 
-Seguidamente, cuantificaremos la magnitud del impacto del cambio climático en la frecuencia de fenómenos extremos, donde se: - Calcula el grado en el que el aumento de la temperatura media global está asociado con el incremento de fenómenos extremos.
+Seguidamente, cuantificaremos la magnitud del impacto del cambio climático en la frecuencia de fenómenos extremos, donde se: 
+- Calcula el grado en el que el aumento de la temperatura media global está asociado con el incremento de fenómenos extremos.
 - Proporcionar una estimación de cuántos eventos extremos adicionales se podrían atribuir al aumento de cada grado en la temperatura global.
 Técnica sugerida: Modelos de regresión lineal o Poisson para cuantificar el impacto directo del cambio de temperatura en la frecuencia de fenómenos.
 Evaluar posibles limitaciones del análisis:
@@ -113,24 +116,11 @@ tabla1 <- tabla1 %>%
 #head(tabla1)
 
 ```
-# Gràfico Mosaico_Tabla1
 
-```{r}
-# Convertir a tabla de frecuencias de dos variables categóricas
-tabla_frecuencias <- table(tabla1$region1, tabla1$tipo_evento1)
+Sguidamente, a partir de [Kaggle](https://www.kaggle.com/), hemos extraído un .csv llamado como climate_change_indicators.csv, que nos quedamos solo con las variables "Country", "F2021", "F2022", donde estas dos últimas nos indican el cambio de temperatura con respecto a una climatología de referencia, correspondiente al período 1951-1980. 
+Con la variable "Country", haremos un par de modificaciones, para así, despues poder unificar estas dos tablas. Lo que haremos serà todos los valores que aparecen el la variable "Country", las distribuïmos en las regiones de la tabla 1, depeniendo a cual correspondan, que són América del Norte, Europa, Asia, América Latina, África .
 
-# Crear el gráfico de mosaico
-mosaicplot(tabla_frecuencias, main = "Distribución de Eventos por Región",
-           xlab = "Región", ylab = "Tipo de Evento", color = TRUE)
-
-
-```
-
-
-
-Sguidamente, a partir de [Kaggle](https://www.kaggle.com/), hemos extraído un .csv llamamodo como climate_change_indicators.csv de donde nos quedamos solo con la variable temperatura global per cada uno de los años, que són desde el 1961 hasta el 2022.
-
-```{r}
+```{r, echo=FALSE}
 tabla2 <- read_csv("climate_change_indicators.csv")
 
 # Crear el mapeo de países a regiones
@@ -235,21 +225,19 @@ Finalmente, uniremos la dos tablas creados creando unatabla unificada a partir d
 tabla_combinada <- tabla1 %>%
   left_join(tabla2, by = "id")
 tabla_combinada <- tabla_combinada %>%
-  drop_na()
+  drop_na() #eliminamos las filas que tengan algun valor nul.lo
 # Verificar las primeras filas de la tabla combinada
-head(tabla_combinada)
+#head(tabla_combinada)
 
 # Resumen de la tabla combinada
 #summary(tabla_combinada)
-#No hay alguna manera de juntar años con el periodo del tiempo?
 ```
 
 
+# Anàlisi Descriptivo
 
-# Análisis descriptivo multivariantes
+En primer lugar, vamos a calcular la matriz de correlación para ver cómo se relacionan las variables numéricas entre sí.
 
-Ahora, vamos a realiza un análisis descriptivo multivariantes de tu base de datos. 
-Paso 1: Análisis Descriptivo de Variables Cuantitativas
 
 ```{r, echo=FALSE}
 #Matriz de correlación (sin especificar nombres, seleccionando automáticamente solo las columnas numéricas)
@@ -267,7 +255,7 @@ ggpairs(tabla_combinada %>%
 ```
 
 
-Paso 2: Análisis de Variables Categóricas
+Ahora, vamos a ver 3 cosas a partir de los graficos de barras. Vamos a visualizar que tipo de suceso és el más freqüente, y cual es la intensidad con la que ocurren.
 
 ```{r, echo=FALSE}
 # Gráfico de barras para variables ordinales y nominales
@@ -278,16 +266,60 @@ tabla_combinada %>%
   labs(title = "Distribución de Tipos de Eventos", x = "Tipo de Evento", y = "Frecuencia") +
   theme_minimal()
 
-#ráfico de barras para la variable "olas de calor"
+#Gráfico de barras para la variable "olas de calor"
 tabla_combinada %>%
   ggplot(aes(x = ola_calor1)) +
   geom_bar(fill = "salmon") +
   labs(title = "Distribución de Severidad de Olas de Calor", x = "Severidad", y = "Frecuencia") +
   theme_minimal()
+
+#Gràfico de barras para la variable "lluvia_intensa"
+tabla_combinada %>%
+  ggplot(aes(x = lluvia_intensa1)) +
+  geom_bar(fill = "pink") +
+  labs(title = "Distribución de Intensidad de la Lluvia", x = "Intensidad", y = "Frecuencia") +
+  theme_minimal()
+
+```
+
+A partir de estos tres gràfics de barras, vemos que el evento que más se produce en la lluvia intesa, seguidos de las olas de calor. También nos damos cuenta de que la intensidad de las olas de calor, cundo se producen, són de nivel alto o extremo. En canbio, la intensidad de las lluvias es baja-moderada, aunque vemos que la freqüéncia de la alta intensidad de lluvias también està bastante elevada.
+
+Ahora vamos a ver, que tipo de evntos era más frequente, por cada periodo de tiempo.
+
+```{r}
+tabla_combinada %>%
+  ggplot(aes(x = periodo_de_tiempo1, fill = tipo_evento1)) +
+  geom_bar(position = "dodge") +
+  labs(
+    title = "Distribución de Tipos de Eventos por Periodo de Tiempo",
+    x = "Periodo de Tiempo",
+    y = "Conteo de Eventos",
+    fill = "Tipo de Evento"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+```
+Vemos facilmente, que la lluvia intensa siempre esta entre los tres primeros. En canbio, obersvamos que las olas de calor, han estado disminuyendo a lo largo de los años. (Es facil darse cuenta de que estos datos són aleatorios ya que este año pasado las olas de calor han sido mayores que a otros años).
+
+Ahora, vamos a hacer el grafico del mosaico, con respecto a la tabla1
+
+```{r}
+# Convertir a tabla de frecuencias de dos variables categóricas
+tabla_frecuencias <- table(tabla1$region1, tabla1$tipo_evento1)
+
+# Crear el gráfico de mosaico
+mosaicplot(tabla_frecuencias, main = "Distribución de Eventos por Región",
+           xlab = "Región", ylab = "Tipo de Evento", color = TRUE)
+
+
 ```
 
 
-Paso 3: Visualización de Relaciones entre Variables
+Seguidamente, vamos a hacer un borxplot para analizar la temperatura global por tipo de evento y un gráfico de dispersión para analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento.
 
 ```{r, echo=FALSE}
 #Boxplot para analizar la temperatura global por tipo de evento
@@ -305,9 +337,9 @@ tabla_combinada %>%
        x = "Precipitación Total (mm)", y = "Temperatura Global (°C)") +
   theme_minimal()
 ```
+FALTA INTERPRETAR RESULTATS
 
-
-Seguidamente, selectionamos la variable "tipo_evento" i la modelízamos con una distribución multinomial, para así, estimar sus parámetros.
+Ahora, selectionamos la variable "tipo_evento" i la modelízamos con una distribución multinomial, para así, estimar sus parámetros.
 
 Primero, calculamos las probabilidad de cada tipo de evento:
 
@@ -333,23 +365,23 @@ colnames(muestra_multinomial) <- c("Simulación")
 print(muestra_multinomial)
 ```
 
-Ahora, calcularmos la probabilidad de un evento de interés, por ejemplo "Ola de Calor", dicha muestra ha de ser de tamaño 20.
+Finalmente, calcularmos la probabilidad de un evento de interés, por ejemplo "Inundación", donde dicha muestra es de tamaño 20.
 
 ```{r, echo=FALSE}
 # Probabilidad de observar al menos una "Ola de Calor" en la muestra de tamaño 20
-evento_interes <- "Ola de Calor"
+evento_interes <- "Inundación"
 
-# Probabilidad de que ocurra al menos una "Ola de Calor" en la muestra
+# Probabilidad de que ocurra al menos una "Inundación" en la muestra
 prob_evento_interes <- 1 - dbinom(0, size = 20, prob = probs[probabilidades_evento$tipo_evento1 == evento_interes])
-cat("La probabilidad de observar al menos una 'Ola de Calor' en una muestra de tamaño 20 es:", prob_evento_interes, "\n")
+cat("La probabilidad de observar al menos una 'Inundación' en una muestra de tamaño 20 es:", prob_evento_interes, "\n")
 
 ```
 
-Este análisis nos permite evaluar la probabilidad de ocurrencia de eventos específicos en una muestra, lo cual es útil para comprender la frecuencia esperada de eventos extremos en el contexto del cambio climático.
+Este análisis nos permite evaluar la probabilidad de ocurrencia de la inundación en una muestra simulada, lo cual,nos ha sido útil para comprender la frecuencia esperada de eventos extremos en el contexto del cambio climático.
 
 # Modelo de regresión multivariante
 
-Ahora, con las variables cuantitativas de nuestra base de datos, ajustaremos un modelo de regresión multivariante en la forma:
+Ahora, con las variables cuantitativas de nuestra base de datos, ajustaremos un modelo de regresión multivariante en la siguiente forma:
 
 $$Y=\beta_0+\beta_1 X_1+ \cdots + \beta_p X_p + \epsilon$$ Donde $Y$ es la variable cuantitativa que deseamos explicar en función del resto de variables cuantitativas registradas, es decir, la variable dependiente que en nustro caso sera "temp_global" y 'dias_calor', 'dias_lluvia', y 'precipitacion_total' son las variables independientes (X_1, X_2, X_3).
 
@@ -357,7 +389,8 @@ $$Y=\beta_0+\beta_1 X_1+ \cdots + \beta_p X_p + \epsilon$$ Donde $Y$ es la varia
 
 ```{r, echo=FALSE}
 # Ajuste del modelo de regresión
-modelo <- lm(temp_global1 ~ dias_calor1 + dias_lluvia1 + precipitacion_total1, data = tabla_combinada)
+#modelo <- lm(F2022 ~ dias_calor1 + dias_lluvia1 + precipitacion_total1, data = tabla_combinada)
+modelo <- lm(temp_global1 ~ F2021 + F2022, data = tabla_combinada)
 
 # Resumen del modelo para ver los coeficientes y el ajuste
 #summary(modelo)
@@ -384,7 +417,18 @@ abline(h = 0, col = "red", lwd = 2)
 
 
 ```
-# Distancia de Mahalon
+**Planteamiento del Contraste de Hipótesis**
+
+Calcularemos la distància de Mahalaondis, para ver si si nuestras variables satisfacen una relación $\chi^2_6$, est 6 es porque tenemos 6 variables cuanitativas.
+
+Definimos las hipótesis nula y alternativa de la siguiente manera:
+
+- H_0: Las variables cuantitativas satisfacen una relación
+
+- H_1: Las variables cuantitativas no satisfacen ninguna relación
+
+
+Para ello, primero utilizaremos la función de R de mahalaondis. Después, la añadiremos, como una columna nueva a nuestra tabla combinada. Después, crearemos una matriz transpuesta y calcukaremos de igual forma la distancia de mahalaondis tranformada, y la añadiremos también a nuestra tabla combinada, es decir la tabla con la que estaos trabajando. 
 
 ```{r}
 # Asegurarse de que la tabla combinada es solo numérica (o selecciona columnas numéricas)
@@ -420,14 +464,14 @@ tabla_combinada_maha <- tabla_combinada_maha %>%
   mutate(mahalanobis_d2_transformado = dist_mahalanobis_transformado)
 
 # Ver las primeras filas con las distancias
-head(tabla_combinada_maha)
+#head(tabla_combinada_maha)
 
 
 
 
 
 ```
-
+Ahora, vamos a visualizar el histograma para la distancia de Mahalanobis original y para la distancia de Mahalanobis transformada.
 
 ```{r}
 # Cargar la librería necesaria para la visualización
@@ -458,7 +502,7 @@ ggplot(tabla_combinada_maha, aes(x = dist_mahalanobis_transformado)) +
 
 
 ```
-
+Como vemos, la distancia de Mahalanobis original si que parece que sigue una distribución $\chi^2_6$, pero en cambio la transformada no. Hagamos la prueba estadística para confirmar distribución $\chi^2_6$.
 
 ```{r}
 # Prueba estadística para confirmar distribución ji-cuadrado
@@ -466,110 +510,13 @@ ks.test(dist_mahalanobis, "pchisq", df = 3)
 
 ```
 
+Como el $p-value<0.05$, entonces tenemos que efectivamente sigue una $\chi^2_6$.
 
-
-
-
-
-
-
-
-
-
-```{r}
-# Seleccionar solo las columnas numéricas
-datos_num <- tabla_combinada %>% select_if(is.numeric)
-
-# Verificar si hay valores NA
-#summary(datos_num)
-
-# Eliminar filas con valores NA
-#datos_num <- na.omit(datos_num)
-
-# Calcular la distancia Mahalanobis al cuadrado
-mahalanobis_d2 <- apply(datos_num, 1, function(x) {
-  mahalanobis(x, center = colMeans(datos_num), cov = cov(datos_num))^2
-})
-
-tabla_combinada$mahalanobis_d2 <- mahalanobis_d2
-
-# Verificar que la columna 'mahalanobis_d2' tiene valores
-head(mahalanobis_d2)
-
-
-```
-```{r}
-# Asumiendo que tus distancias de Mahalanobis al cuadrado están en la variable `mahalanobis_d2`
-
-# Verificar que la columna mahalanobis_d2 es numérica
-str(tabla_combinada$mahalanobis_d2)
-
-# Si no es un vector numérico, convertirlo a numérico:
-tabla_combinada$mahalanobis_d2 <- as.numeric(tabla_combinada$mahalanobis_d2)
-
-# Eliminar cualquier valor NA en caso de que existan
-#tabla_combinada <- tabla_combinada %>% filter(!is.na(mahalanobis_d2))
-
-# Verificar la distribución de las distancias
-summary(tabla_combinada$mahalanobis_d2)
-
-# Número de variables (grados de libertad) - k
-k <- ncol(datos_num)
-
-# Crear el histograma de las distancias Mahalanobis al cuadrado
-hist(tabla_combinada$mahalanobis_d2, 
-     breaks = 20,                          # Número de "barras" en el histograma
-     col = "skyblue",                      # Color de las barras
-     border = "black",                     # Color del borde de las barras
-     probability = TRUE,                    # Normaliza el histograma para que sea una densidad
-     main = "Distribución de Distancias Mahalanobis al Cuadrado",  # Título del gráfico
-     xlab = "Distancia Mahalanobis al Cuadrado",  # Etiqueta del eje x
-     ylab = "Densidad")                    # Etiqueta del eje y
-
-# Agregar la curva de la distribución Chi-cuadrado con k grados de libertad
-curve(dchisq(x, df = k), 
-      col = "red",                        # Color de la curva
-      lwd = 2,                            # Grosor de la línea de la curva
-      add = TRUE)                         # Agregar la curva sobre el histograma
-
-```
-
-
-```{r}
-# Calcular las distancias Mahalanobis al cuadrado
-k <- ncol(datos_num)  # Número de variables (grados de libertad)
-
-mahalanobis_d2 <- datos_num %>%
-  as.matrix() %>%
-  apply(1, function(x) mahalanobis(x, center = colMeans(datos_num), cov = cov(datos_num))^2)
-
-# Añadir las distancias al data frame original
-tabla_combinada <- tabla_combinada %>%
-  mutate(mahalanobis_d2 = mahalanobis_d2)
-
-
-# Ver las primeras filas con las distancias
-head(tabla_combinada)
-
-# Número de variables numéricas (esto es k, los grados de libertad)
-k <- ncol(datos_num)
-
-# Histograma de las distancias Mahalanobis al cuadrado
-ggplot(tabla_combinada, aes(x = mahalanobis_d2)) +
-  geom_histogram(aes(y = ..density..), bins = 30, fill = "skyblue", color = "black", alpha = 0.7) +
-  # Agregar la curva de la distribución Chi-cuadrado con k grados de libertad
-  stat_function(fun = dchisq, args = list(df = k), color = "red", size = 1.5) +
-  labs(title = "Distribución de Distancias Mahalanobis al Cuadrado",
-       subtitle = paste("Comparación con la distribución Chi-cuadrado con", k, "grados de libertad"),
-       x = "Distancia Mahalanobis al Cuadrado",
-       y = "Densidad") +
-  theme_minimal() +
-  theme(legend.position = "none")
-```
+Vamos a realizar otro contraste de hipótesis
 
 **Planteamiento del Contraste de Hipótesis**
 
-Queremos evaluar si existe una diferencia significativa en el vector de medias de las variables climáticas cuantitativas (`temp_global`, `dias_calor`, `dias_lluvia`, y `precipitacion_total`) entre dos tipos de eventos climáticos: "Ola de Calor" y "Sequía".
+Queremos evaluar si existe una diferencia significativa en el vector de medias de las variables climáticas cuantitativas (`temp_global`, `dias_calor`, `dias_lluvia`, `F2021` Y `F2022`) entre dos tipos de eventos climáticos: "Ola de Calor" y "Sequía".
 
 *Planteamiento del Contraste de Hipótesis*
 
@@ -600,8 +547,8 @@ sequia <- tabla_combinada %>%
   filter(tipo_evento1 == "Sequía")
 
 # Realizar el contraste de Hotelling usando solo las variables cuantitativas de interés
-resultado_hotelling <- hotelling.test(calor[, c("temp_global1", "dias_calor1", "dias_lluvia1", "precipitacion_total1")],
-                                      sequia[, c("temp_global1", "dias_calor1", "dias_lluvia1", "precipitacion_total1")])
+resultado_hotelling <- hotelling.test(calor[, c("temp_global1", "dias_calor1", "dias_lluvia1", "precipitacion_total1", "F2021", "F2022")],
+                                      sequia[, c("temp_global1", "dias_calor1", "dias_lluvia1", "precipitacion_total1", "F2021", "F2022")])
 
 # Ver los resultados del contraste
 print(resultado_hotelling)
@@ -617,8 +564,6 @@ Si $p_{valor} ≥ 0.05$: No rechazamos la hipótesis nula, lo cual indica que no
 Por lo tanto, como el p_valor es $0.9672$, tenemos que no podemos rechazar la hipotesis nula.Esto significa que no hay evidencia estadística suficiente para afirmar que las medias de las variables cuantitativas son significativamente diferentes entre los dos tipos de eventos ("Ola de Calor" y "Sequía").
 
 Aunque el valor p es alto, es importante recordar que esta conclusión depende de la calidad de los datos, el tamaño de la muestra y los supuestos del modelo.
-Si tienes dudas sobre la calidad de los datos o el tamaño de la muestra, puedes considerar revisar esos aspectos para fortalecer el análisis.
-
 
 
 
