@@ -309,7 +309,7 @@ Ahora, vamos a hacer el grafico del mosaico, con respecto a la tabla1
 
 ```{r}
 # Convertir a tabla de frecuencias de dos variables categóricas
-tabla_frecuencias <- table(tabla1$region1, tabla1$tipo_evento1)
+tabla_frecuencias <- table(tabla_combinada$region1, tabla_combinada$tipo_evento1)
 
 # Crear el gráfico de mosaico
 mosaicplot(tabla_frecuencias, main = "Distribución de Eventos por Región",
@@ -317,6 +317,21 @@ mosaicplot(tabla_frecuencias, main = "Distribución de Eventos por Región",
 
 
 ```
+El gráfico muestra la distribución de eventos climáticos/extremos en diferentes regiones del mundo, como África, América del Norte, América Latina, Asia, y Europa.
+En el eje vertical está el tipo de evento (como ola de calor, lluvia intensa, inundación, y sequía), mientras que en el eje horizontal están las regiones geográficas.
+Sabemos que la intensidad del color y el tamaño de los bloques representan la frecuencia o relevancia de cada tipo de evento en cada región. Los bloques más oscuros y grandes indican una mayor prevalencia de ese tipo de evento en esa región específica.
+Por ejemplo, en África y América del Norte, el bloque para olas de calor es grande y oscuro, sugiriendo que estos eventos son más comunes o impactantes en esas regiones.
+Observamos entonces que:
+- Olas de Calor: Son especialmente frecuentes en África, América del Norte y Europa (bloques grandes y oscuros en estas regiones), lo que podría reflejar patrones de cambio climático que afectan más a estas áreas.
+- Lluvia Intensa: Aparece de manera más equilibrada en casi todas las regiones, aunque es especialmente notable en Asia, donde el bloque es más grande.
+- Inundación: También es más prominente en Asia, seguida de América del Norte y América Latina, lo cual puede estar relacionado con las características climáticas y geográficas de estas regiones (monzones en Asia, huracanes en América).
+- Sequía: Es relevante en África y América Latina, aunque es menos significativa en otras regiones como Europa y América del Norte.
+
+Por lo tanto, el mosaico sugiere que distintas regiones enfrentan distintos desafíos climáticos. África, América del Norte y Europa enfrentan principalmente olas de calor, mientras que Asia enfrenta lluvias intensas e inundaciones de manera más notable.
+La sequía es un problema en África y América Latina, indicando que estas regiones podrían tener problemas relacionados con la disponibilidad de agua y la agricultura.
+És decir, este gráfico refleja cómo el cambio climático y los eventos extremos afectan de forma diferenciada a las regiones.
+
+
 
 
 Seguidamente, vamos a hacer un borxplot para analizar la temperatura global por tipo de evento y un gráfico de dispersión para analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento.
@@ -324,20 +339,32 @@ Seguidamente, vamos a hacer un borxplot para analizar la temperatura global por 
 ```{r, echo=FALSE}
 #Boxplot para analizar la temperatura global por tipo de evento
 tabla_combinada %>%
-  ggplot(aes(x = tipo_evento1, y = temp_global1, fill = tipo_evento1)) +
+  ggplot(aes(x = tipo_evento1, y = F2022, fill = tipo_evento1)) +
   geom_boxplot() +
-  labs(title = "Distribución de Temperatura Global por Tipo de Evento", x = "Tipo de Evento", y = "Temperatura Global (°C)") +
-  theme_minimal()
-
-#Gráfico de dispersión para analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento
-tabla_combinada %>%
-  ggplot(aes(x = precipitacion_total1, y = temp_global1, color = tipo_evento1)) +
-  geom_point(alpha = 0.7) +
-  labs(title = "Relación entre Precipitación Total y Temperatura Global",
-       x = "Precipitación Total (mm)", y = "Temperatura Global (°C)") +
+  labs(title = "Distribución de la Var. de la Temp. Global con respecto 1951-198 en 2022 por Tipo de Evento", x = "Tipo de Evento", y = "Var. de la Temperatura Global 2022 (°C)") +
   theme_minimal()
 ```
-FALTA INTERPRETAR RESULTATS
+Sabemos que cada caja representa un rango de de la variación de las temperaturas globales respecto de los años 1951-198 en 2022 asociadas con un tipo específico de evento climático. Además, la línea dentro de cada caja muestra la mediana de las variaciones de la temperatura para cada tipo de evento. Y los límites de cada caja (percentiles 25 y 75) indican el rango intercuartílico, y las líneas o "bigotes" representan los valores que caen dentro de 1.5 veces el rango intercuartílico por debajo o por encima de los percentiles. Los puntos fuera de los bigotes se consideran valores atípicos.
+
+El gráfico sugiere que el tipo de evento puede influir en la variabilidad de la temperatura global. "Inundación" parece estar asociado con una mayor variabilidad de la temperatura, mientras que "Ola de Calor" tiene una distribución más concentrada alrededor de la mediana. Además, los eventos de "Sequía" presentan una mayor dispersión en los valores de variación de temperatura y algunos valores atípicos. Esto podría indicar que la temperatura global varía de manera diferente según el tipo de evento, lo cual podría ser un aspecto relevante para futuros análisis.
+
+
+```{r, echo=FALSE}
+#Gráfico de dispersión para analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento
+tabla_combinada %>%
+  ggplot(aes(x = precipitacion_total1, y = F2022, color = tipo_evento1)) +
+  geom_point(alpha = 0.7) +
+  labs(title = "Relación entre Precipitación Total y la Variacion de la Temperatura Global 2022",
+       x = "Precipitación Total (mm)", y = "Var. Temperatura Global 2022 (°C)") +
+  theme_minimal()
+```
+Mirando la distribución general de los eventos, no se observa una relación clara entre la precipitación total y la variación de la temperatura global en 2022. Los puntos parecen dispersarse de forma aleatoria, lo que sugiere que la precipitación total no está fuertemente correlacionada con la variación de la temperatura global en este conjunto de datos.
+En este gráfico, los puntos de los distintos tipos de eventos (representados por diferentes colores) están distribuidos de forma amplia y uniforme en el rango de precipitación y variación de temperatura.
+
+Comparando este grafico con el anterior, vemos que en el gráfico de cajas, algunos eventos (como las inundaciones) tenían una mediana de variación de temperatura global ligeramente superior, mientras que otros eventos, como las olas de calor, mostraban una menor dispersión en los valores de temperatura. Esto indicaba posibles diferencias en la variación de la temperatura según el tipo de evento.
+En este gráfico, sin embargo, no parece haber una relación fuerte entre los tipos de eventos y la precipitación total en relación con la temperatura global. Esto podría interpretarse como una falta de influencia significativa de la precipitación total en la variación de temperatura cuando se consideran diferentes eventos.
+
+En resumen, aunque la variación de temperatura global parece depender en cierta medida del tipo de evento, no se observa una relación lineal o directa entre la precipitación total y la variación de la temperatura global según el tipo de evento. Esto indica una posible complejidad en la relación entre estos factores climáticos lo qual viene dado de que algunos datos són simulados.
 
 Ahora, selectionamos la variable "tipo_evento" i la modelízamos con una distribución multinomial, para así, estimar sus parámetros.
 
@@ -401,11 +428,22 @@ residuales <- resid(modelo)
 # Interpretación del score en el contexto del problema
 cat("Los primeros valores de los residuales (score) son:\n")
 print(head(residuales))
+```
 
+Vamos a visualizar el histográma para ver su distribución:
+
+```{r, echo=FALSE}
 # Evaluación gráfica de los residuales
 # Histograma de los residuales para ver su distribución
 hist(residuales, main = "Distribución de los Residuales", xlab = "Residuales", col = "lightblue", border = "black")
+```
+Observamos que la forma de la distribución de los residuales es aproximadamente simétrica y se asemeja a una distribución normal centrada en 0. Por lo tanto, arece que el modelo de regresión ajustado es adecuado y cumple con los supuestos básicos de la regresión lineal.
 
+Por ùltimo, como no se observan residuales muy alejados de 0, indica que no hay outliers (valores atípicos) evidentes en los datos.
+
+Veamos ahora si hay alguna tendéncia o patron en los errores:
+
+```{r, echo=FALSE}
 # Gráfico de dispersión de los valores predichos vs los residuales
 # Para observar si hay alguna tendencia o patrón en los errores
 plot(modelo$fitted.values, residuales,
@@ -417,6 +455,44 @@ abline(h = 0, col = "red", lwd = 2)
 
 
 ```
+
+Los ejes del gráfico nos indican lo siguiente: 
+- Eje X (Valores Predichos): Representa los valores de temp_global1 que el modelo predice basándose en los valores de F2021 y F2022.
+- Eje Y (Residuales): Muestra los errores o diferencias entre los valores observados de temp_global1 y los valores que el modelo predice. Idealmente, estos residuales deberían estar distribuidos de forma aleatoria alrededor de 0.
+
+Observamos que la mayoría de los puntos se encuentran cerca de la línea roja (que representa el valor 0 en los residuales), lo cual sugiere que los errores están bastante centrados alrededor de 0. Esto es positivo, ya que indica que el modelo no está sistemáticamente subestimando ni sobreestimando los valores.
+No parece haber un patrón claro en la dispersión de los puntos, lo cual es una buena señal. En un modelo de regresión lineal, se espera que los residuales estén distribuidos aleatoriamente sin patrones obvios, lo cual indicaría que el modelo capturó bien la relación lineal entre las variables.
+
+Si hacemos ahora, la prueva de Shapiro-Test, obtenemos:
+```{r}
+shapiro.test(resid(modelo))
+```
+Por lo tanto, como el $p_{valor}>0.05$, nos indica que los iresiduales son normales.
+
+Ahora, si utilizamos el ANOVA, tenemos que:
+```{r}
+modelo_alternativo <- lm(temp_global1 ~ F2021, data = tabla_combinada)
+anova(modelo, modelo_alternativo)
+
+
+```
+Como El valor p para el estadístico F es 0.9356, que es muy alto $(>0.05)$. Esto indica que no hay evidencia significativa de que F2022 mejore el modelo de predicción de temp_global1 cuando F2021 ya está en el modelo.
+És decir, esto sugiere que añadir F2022 no aporta una mejora significativa al ajuste del modelo. Por lo tanto, el modelo con solo F2021 es suficiente y más adecuado desde una perspectiva de simplicidad y eficiencia.
+
+Visualizamos ahora solo el modelo con $F2021$:
+
+```{r}
+library(ggplot2)
+ggplot(tabla_combinada, aes(x = F2021, y = temp_global1)) +
+    geom_point() +
+    geom_smooth(method = "lm", formula = y ~ x, color = "blue") +
+    labs(title = "Relación entre F2021 y temp_global1", x = "F2021", y = "Temp Global 1") +
+    theme_minimal()
+
+```
+
+Observamos que  la línea de regresión muestra una leve relación positiva entre F2021 y temp_global1, es decir, a mayor F2021, temp_global1 tiende a subir ligeramente. Però los puntos están dispersos, lo que indica que F2021 explica poco de la variabilidad en temp_global1. Por lo tanto, $F2021$ por sí solo no es un predictor fuerte para temp_global1.
+
 **Planteamiento del Contraste de Hipótesis**
 
 Calcularemos la distància de Mahalaondis, para ver si si nuestras variables satisfacen una relación $\chi^2_6$, est 6 es porque tenemos 6 variables cuanitativas.
@@ -430,7 +506,7 @@ Definimos las hipótesis nula y alternativa de la siguiente manera:
 
 Para ello, primero utilizaremos la función de R de mahalaondis. Después, la añadiremos, como una columna nueva a nuestra tabla combinada. Después, crearemos una matriz transpuesta y calcukaremos de igual forma la distancia de mahalaondis tranformada, y la añadiremos también a nuestra tabla combinada, es decir la tabla con la que estaos trabajando. 
 
-```{r}
+```{r, echo=FALSE}
 # Asegurarse de que la tabla combinada es solo numérica (o selecciona columnas numéricas)
 datos_num <- tabla_combinada %>% 
   select_if(is.numeric)  # Selecciona solo las columnas numéricas para el análisis
@@ -473,7 +549,7 @@ tabla_combinada_maha <- tabla_combinada_maha %>%
 ```
 Ahora, vamos a visualizar el histograma para la distancia de Mahalanobis original y para la distancia de Mahalanobis transformada.
 
-```{r}
+```{r, echo=FALSE}
 # Cargar la librería necesaria para la visualización
 library(ggplot2)
 
@@ -504,7 +580,7 @@ ggplot(tabla_combinada_maha, aes(x = dist_mahalanobis_transformado)) +
 ```
 Como vemos, la distancia de Mahalanobis original si que parece que sigue una distribución $\chi^2_6$, pero en cambio la transformada no. Hagamos la prueba estadística para confirmar distribución $\chi^2_6$.
 
-```{r}
+```{r, echo=FALSE}
 # Prueba estadística para confirmar distribución ji-cuadrado
 ks.test(dist_mahalanobis, "pchisq", df = 3)
 
