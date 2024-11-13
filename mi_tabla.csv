@@ -1,0 +1,141 @@
+"id","temp_global1","dias_calor1","dias_lluvia1","precipitacion_total1","region1","tipo_evento1","ola_calor1","lluvia_intensa1","periodo_de_tiempo1","region","F2021","F2022"
+1,15.3,100,48,853,"América Latina","Lluvia Intensa","Baja","Baja","1980-1990","America Latina",1.031,0.643
+3,15.1,96,48,833,"América Latina","Inundación","Baja","Baja","2001-2010","America Latina",1.286,1.031
+4,14.8,96,42,849,"América Latina","Ola de Calor","Moderada","Alta","2001-2010","America Latina",0.738,0.644
+5,14.7,101,51,858,"América Latina","Lluvia Intensa","Alta","Moderada","2001-2010","America Latina",0.738,0.644
+6,15.7,103,51,878,"América Latina","Ola de Calor","Extrema","Moderada","1980-1990","America Latina",1.154,0.926
+7,15.4,98,50,857,"América Latina","Sequía","Alta","Baja","2001-2010","America Latina",1.154,0.926
+8,14.7,102,49,865,"América Latina","Inundación","Extrema","Baja","2011-2020","America Latina",0.956,0.875
+9,15.4,100,49,838,"América Latina","Ola de Calor","Moderada","Baja","1980-1990","America Latina",0.957,0.974
+10,14.9,99,53,837,"América Latina","Lluvia Intensa","Moderada","Alta","1980-1990","America Latina",0.877,0.407
+11,15.2,102,53,851,"América Latina","Lluvia Intensa","Alta","Baja","1980-1990","America Latina",0.877,0.407
+12,14.6,102,50,853,"América Latina","Sequía","Baja","Baja","1991-2000","America Latina",1.073,0.874
+13,15,96,52,847,"América Latina","Ola de Calor","Alta","Alta","2011-2020","America Latina",1.073,0.874
+16,14.7,102,51,821,"América Latina","Lluvia Intensa","Moderada","Baja","2001-2010","America Latina",1.304,1.437
+17,14.7,99,47,836,"América Latina","Ola de Calor","Alta","Baja","1991-2000","America Latina",1.304,1.437
+18,15.1,99,48,848,"América Latina","Ola de Calor","Extrema","Moderada","1991-2000","America Latina",0.727,0.688
+19,14.8,100,50,845,"América Latina","Sequía","Extrema","Moderada","2011-2020","America Latina",0.995,0.982
+20,14.6,100,50,855,"América Latina","Lluvia Intensa","Moderada","Baja","1980-1990","America Latina",1.032,0.736
+21,15.4,98,47,851,"América Latina","Sequía","Baja","Alta","1991-2000","America Latina",0.999,0.658
+23,15,102,49,851,"América Latina","Inundación","Alta","Alta","1991-2000","America Latina",0.767,0.698
+24,14.9,98,48,844,"América Latina","Ola de Calor","Baja","Moderada","2001-2010","America Latina",0.767,0.698
+25,14.8,99,51,870,"América Latina","Lluvia Intensa","Extrema","Moderada","1991-2000","America Latina",0.826,0.773
+26,15.2,98,48,854,"América Latina","Inundación","Alta","Baja","2001-2010","America Latina",1.406,0.916
+27,15.1,102,47,820,"América Latina","Sequía","Alta","Moderada","2011-2020","America Latina",0.875,1.066
+28,15.2,103,51,849,"América del Norte","Inundación","Extrema","Moderada","2011-2020","America Latina",0.883,1.095
+29,14.9,97,50,840,"América del Norte","Inundación","Alta","Baja","1991-2000","America Latina",1.098,0.723
+30,15,96,46,861,"América del Norte","Ola de Calor","Moderada","Moderada","1980-1990","America Latina",1.267,1.14
+31,15,102,52,859,"América del Norte","Lluvia Intensa","Alta","Moderada","1991-2000","America Latina",0.716,0.684
+32,14.8,100,50,832,"América del Norte","Inundación","Moderada","Alta","2001-2010","America Latina",1.163,1.249
+33,15.1,99,50,838,"América del Norte","Inundación","Extrema","Moderada","2011-2020","America Latina",0.862,0.77
+34,15.5,98,52,868,"América del Norte","Ola de Calor","Extrema","Baja","1991-2000","America Latina",1.026,0.842
+35,14.6,101,52,833,"América del Norte","Ola de Calor","Alta","Moderada","1980-1990","America Latina",1.199,0.728
+36,15.1,99,49,856,"América del Norte","Sequía","Extrema","Baja","1980-1990","America Latina",0.696,0.649
+37,15.1,103,53,856,"América del Norte","Lluvia Intensa","Baja","Baja","1991-2000","America Latina",1.287,0.878
+38,15,101,44,848,"América del Norte","Sequía","Baja","Baja","2011-2020","America del Norte",2.515,1.268
+39,14.6,100,53,837,"América del Norte","Lluvia Intensa","Moderada","Alta","2011-2020","America del Norte",0.791,0.359
+40,15.3,98,54,857,"América del Norte","Inundación","Extrema","Alta","2011-2020","America del Norte",2.482,1.413
+42,15,102,50,841,"América del Norte","Inundación","Extrema","Baja","1991-2000","America del Norte",1.163,1.249
+43,15.2,100,54,845,"América del Norte","Lluvia Intensa","Baja","Baja","1991-2000","America del Norte",0.598,0.627
+45,15,100,53,828,"América del Norte","Lluvia Intensa","Moderada","Alta","1991-2000","America del Norte",1.689,2.421
+46,15,99,50,874,"América del Norte","Lluvia Intensa","Baja","Alta","1980-1990","America del Norte",0.982,1.319
+48,15.3,102,55,859,"América del Norte","Lluvia Intensa","Moderada","Moderada","1991-2000","America del Norte",0.613,1.225
+49,15.1,100,54,853,"América del Norte","Lluvia Intensa","Extrema","Baja","1991-2000","America del Norte",1.468,1.672
+50,15.2,96,52,847,"América del Norte","Lluvia Intensa","Alta","Alta","1980-1990","America del Norte",1.18,1.221
+51,15,100,50,849,"América del Norte","Inundación","Extrema","Baja","2011-2020","America del Norte",2.32,1.944
+52,14.9,101,51,879,"América del Norte","Ola de Calor","Baja","Baja","1980-1990","America del Norte",1.169,1.156
+53,14.7,96,47,840,"América del Norte","Lluvia Intensa","Alta","Moderada","1991-2000","America del Norte",0.955,1.038
+55,15.3,99,46,873,"América del Norte","Inundación","Moderada","Alta","1991-2000","America del Norte",1.19,0.846
+56,14.7,100,50,858,"América del Norte","Sequía","Extrema","Alta","2001-2010","America del Norte",1.144,1.217
+57,14.4,100,53,840,"América del Norte","Lluvia Intensa","Extrema","Alta","1991-2000","Asia",1.327,2.012
+58,15,98,53,856,"Asia","Lluvia Intensa","Alta","Baja","2001-2010","Asia",2.087,1.707
+59,15.2,98,49,825,"Asia","Sequía","Extrema","Baja","2011-2020","Asia",2.061,2.08
+60,15.2,99,48,843,"Asia","Lluvia Intensa","Extrema","Baja","2001-2010","Asia",1.3,1.216
+61,15.2,98,51,866,"Asia","Sequía","Extrema","Baja","1980-1990","Asia",0.733,0.79
+62,15,100,53,844,"Asia","Sequía","Alta","Alta","2001-2010","Asia",1.11,1.085
+63,15.1,100,46,854,"Asia","Lluvia Intensa","Extrema","Baja","1991-2000","Asia",2.644,2.147
+64,15.2,103,48,840,"Asia","Inundación","Moderada","Alta","1991-2000","Asia",1.786,1.079
+65,14.3,101,51,842,"Asia","Lluvia Intensa","Baja","Moderada","2011-2020","Asia",1.27,1.335
+66,14.9,100,49,845,"Asia","Ola de Calor","Extrema","Moderada","1980-1990","Asia",1.762,1.659
+67,15.1,99,50,857,"Asia","Ola de Calor","Moderada","Moderada","1980-1990","Asia",2.676,2.275
+68,15.3,98,48,855,"Asia","Lluvia Intensa","Alta","Baja","1980-1990","Asia",1.417,2.619
+69,15.1,102,51,849,"Asia","Lluvia Intensa","Baja","Moderada","1991-2000","Asia",1.287,1.112
+70,15,98,49,860,"Asia","Lluvia Intensa","Moderada","Moderada","2001-2010","Asia",2.039,1.29
+71,15.6,100,52,853,"Asia","Ola de Calor","Moderada","Baja","1991-2000","Asia",1.473,1.367
+72,15.2,99,50,834,"Asia","Lluvia Intensa","Moderada","Baja","2011-2020","Asia",1.473,1.367
+73,15.1,101,48,844,"Asia","Ola de Calor","Alta","Baja","1980-1990","Asia",1.122,0.784
+74,14.9,100,49,855,"Asia","Lluvia Intensa","Alta","Alta","1980-1990","Asia",1.994,2.197
+75,14.7,103,52,859,"Asia","Lluvia Intensa","Alta","Baja","2011-2020","Asia",1.656,1.436
+76,15.1,101,49,831,"Asia","Sequía","Alta","Alta","1991-2000","Asia",1.656,1.436
+77,15.3,95,47,859,"Asia","Sequía","Baja","Moderada","1991-2000","Asia",0.632,1.132
+78,14.4,100,48,819,"Asia","Lluvia Intensa","Moderada","Baja","2001-2010","Asia",0.632,1.132
+79,15.8,103,51,853,"Asia","Lluvia Intensa","Moderada","Alta","1991-2000","Asia",1.329,1.055
+80,14.9,100,49,865,"Asia","Ola de Calor","Extrema","Baja","1980-1990","Asia",1.121,1.389
+81,15.1,99,48,861,"Asia","Lluvia Intensa","Extrema","Baja","1991-2000","Asia",1.431,1.405
+82,15,101,50,855,"Asia","Sequía","Moderada","Baja","1980-1990","Asia",2.203,1.745
+83,14.7,101,53,837,"Asia","Lluvia Intensa","Baja","Moderada","2001-2010","Asia",1.3,1.311
+84,14.6,97,44,843,"Asia","Ola de Calor","Baja","Alta","1991-2000","Asia",1.034,1.004
+85,15.1,101,50,864,"Asia","Ola de Calor","Baja","Moderada","2011-2020","Asia",1.112,1.014
+86,14.1,100,46,840,"Asia","Sequía","Alta","Moderada","1991-2000","Asia",1.112,1.014
+87,15.4,98,49,872,"Asia","Ola de Calor","Extrema","Moderada","1991-2000","Asia",1.647,2.528
+88,15.7,100,51,865,"Europa","Sequía","Alta","Alta","2011-2020","Asia",1.114,1.033
+89,14.9,98,51,853,"Europa","Inundación","Alta","Moderada","1980-1990","Europa",1.536,1.518
+90,15.2,101,54,874,"Europa","Ola de Calor","Alta","Moderada","1991-2000","Europa",1.536,1.518
+91,15.3,101,50,837,"Europa","Lluvia Intensa","Alta","Moderada","2011-2020","Europa",1.533,3.243
+92,14.9,101,51,855,"Europa","Inundación","Extrema","Alta","1980-1990","Europa",1.395,2.498
+93,14.7,100,45,866,"Europa","Ola de Calor","Alta","Alta","2001-2010","Europa",1.395,2.498
+94,15,102,50,839,"Europa","Inundación","Baja","Moderada","2001-2010","Europa",1.728,1.922
+95,14.7,101,45,851,"Europa","Sequía","Alta","Moderada","1991-2000","Europa",1.203,2.807
+96,15.3,101,50,851,"Europa","Ola de Calor","Extrema","Baja","1991-2000","Europa",1.598,2.091
+97,15.1,99,48,831,"Europa","Inundación","Alta","Alta","2001-2010","Europa",1.629,1.831
+98,14.9,101,53,872,"Europa","Lluvia Intensa","Baja","Alta","1991-2000","Europa",1.69,2.219
+99,15.2,100,53,864,"Europa","Inundación","Extrema","Moderada","1991-2000","Europa",1.938,2.062
+100,14.9,100,51,844,"Europa","Inundación","Alta","Moderada","2001-2010","Europa",1.337,2.929
+101,15.1,100,49,835,"Europa","Inundación","Baja","Alta","2001-2010","Europa",1.325,2.596
+102,15.2,101,52,867,"Europa","Sequía","Alta","Moderada","2001-2010","Europa",1.655,1.04
+103,14.9,104,51,852,"Europa","Sequía","Baja","Alta","1991-2000","Europa",1.43,2.142
+104,15.2,97,46,850,"Europa","Ola de Calor","Moderada","Moderada","2001-2010","Europa",0.921,1.201
+105,14.8,102,51,836,"Europa","Ola de Calor","Baja","Alta","1980-1990","Europa",1.569,2.135
+106,15.3,101,51,860,"Europa","Sequía","Extrema","Baja","2001-2010","Europa",1.569,2.135
+107,15.1,100,50,855,"Europa","Lluvia Intensa","Moderada","Moderada","1980-1990","Europa",1.987,1.953
+108,14.6,102,49,851,"Europa","Inundación","Moderada","Baja","2001-2010","Europa",1.987,1.953
+109,14.8,100,51,873,"Europa","Inundación","Extrema","Moderada","1991-2000","Europa",1.232,2.534
+110,15.3,96,50,848,"Europa","Sequía","Extrema","Moderada","1980-1990","Europa",1.232,2.534
+111,14.8,101,48,834,"Europa","Inundación","Alta","Alta","1980-1990","Europa",1.792,1.96
+112,15.5,100,48,858,"África","Sequía","Moderada","Moderada","1980-1990","Europa",1.792,1.96
+113,15,100,48,828,"África","Ola de Calor","Alta","Baja","2001-2010","Europa",1.158,2.926
+114,15.3,101,50,848,"África","Ola de Calor","Extrema","Moderada","1980-1990","Europa",1.158,2.926
+115,15.3,102,47,844,"África","Sequía","Extrema","Baja","1991-2000","Europa",2.123,1.955
+116,15,101,52,868,"África","Ola de Calor","Extrema","Baja","1991-2000","Europa",2.123,1.955
+117,15.1,97,49,860,"África","Inundación","Extrema","Baja","2011-2020","Europa",1.339,2.143
+118,14.9,100,53,845,"África","Inundación","Baja","Alta","1980-1990","Europa",1.5,2.737
+119,15.1,104,51,844,"África","Inundación","Extrema","Moderada","2011-2020","Europa",1.5,2.737
+120,14.9,99,50,848,"África","Ola de Calor","Alta","Moderada","1991-2000","Europa",1.596,1.865
+121,15.2,100,46,842,"África","Inundación","Alta","Baja","1980-1990","Europa",1.316,2.601
+122,14.8,100,50,851,"África","Sequía","Extrema","Alta","2011-2020","Europa",1.53,1.404
+123,15.5,98,49,854,"África","Lluvia Intensa","Baja","Moderada","1980-1990","Europa",1.499,1.918
+124,15,99,50,860,"África","Inundación","Baja","Alta","2001-2010","Europa",1.466,2.056
+125,15.4,99,52,853,"África","Ola de Calor","Baja","Alta","1980-1990","Europa",1.251,2.318
+126,14.5,100,51,819,"África","Inundación","Alta","Baja","1991-2000","Europa",1.251,2.318
+127,14.8,95,46,847,"África","Ola de Calor","Extrema","Baja","1980-1990","Europa",1.447,1.949
+128,14.8,100,51,829,"África","Lluvia Intensa","Baja","Moderada","2001-2010","Europa",1.447,1.949
+129,15.4,100,52,860,"África","Inundación","Baja","Alta","2011-2020","Europa",1.643,2.261
+130,15.4,102,51,854,"África","Inundación","Baja","Baja","2001-2010","Europa",1.529,2.115
+131,14.8,100,51,834,"África","Inundación","Extrema","Baja","1980-1990","Europa",1.594,1.938
+132,15.2,97,47,847,"África","Sequía","Alta","Baja","1991-2000","Europa",1.431,2.489
+133,14.7,102,50,846,"África","Ola de Calor","Moderada","Alta","2001-2010","Europa",1.846,2.11
+134,15.4,101,50,853,"África","Sequía","Baja","Alta","2011-2020","Europa",1.181,2.798
+135,15.6,97,47,864,"África","Lluvia Intensa","Baja","Moderada","1991-2000","Europa",1.435,1.931
+136,14.8,100,52,858,"África","Sequía","Alta","Baja","1980-1990","Europa",0.929,1.911
+137,15.1,100,51,841,"África","Sequía","Moderada","Baja","1980-1990","Africa",2.33,1.688
+138,15,102,44,846,"África","Ola de Calor","Extrema","Moderada","2001-2010","Africa",1.553,1.212
+139,15,100,52,862,"África","Ola de Calor","Extrema","Baja","2001-2010","Africa",1.522,0.884
+140,14.7,99,49,864,"África","Sequía","Baja","Baja","1980-1990","Africa",-0.425,-1.305
+141,14.7,99,47,824,"África","Ola de Calor","Moderada","Alta","2001-2010","Africa",1.624,0.802
+142,15.5,101,51,859,"África","Ola de Calor","Extrema","Moderada","1991-2000","Africa",1.624,0.802
+145,14.6,99,49,849,"África","Lluvia Intensa","Alta","Moderada","1991-2000","Africa",1.765,1.853
+146,15.2,102,50,856,"África","Lluvia Intensa","Moderada","Alta","2011-2020","Africa",1.765,1.853
+147,15.3,99,51,871,"África","Sequía","Moderada","Baja","2001-2010","Africa",1.47,1.044
+148,15,103,48,823,"África","Ola de Calor","Alta","Moderada","1980-1990","Africa",1.47,1.044
+149,15.1,97,47,871,"África","Lluvia Intensa","Alta","Moderada","2011-2020","Africa",1.268,1.032
+150,15.7,101,46,868,"África","Ola de Calor","Alta","Alta","2011-2020","Africa",1.146,0.738
