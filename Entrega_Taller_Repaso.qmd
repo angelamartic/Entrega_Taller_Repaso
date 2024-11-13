@@ -6,7 +6,6 @@ format:
     theme: lumen
     toc: true
     toc-depth: 3
-Rendering:
     embed-resources: true
 editor: 
   markdown: 
