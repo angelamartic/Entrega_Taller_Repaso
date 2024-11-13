@@ -662,6 +662,11 @@ Recomendaria revisar el tamaño de la muestra, verificar los supuestos del model
 
 
 
+# Bibliografía
+- Chatgpt
+- [url-uniones_mutar](https://bookdown.org/ddiannae/curso-rdata/uniones-para-mutar.html)
+- [libro_analisidatos](https://aprender-uib.github.io/AD/)
+
 
 
 
