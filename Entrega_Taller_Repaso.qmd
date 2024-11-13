@@ -11,6 +11,7 @@ Rendering:
 editor: 
   markdown: 
     wrap: sentence
+    
 ---
 
 ```{r setup, include=FALSE}
@@ -32,13 +33,13 @@ El cambio climático está provocando un aumento en la temperatura media global,
 
 Nuestro objetivo es hacer un analisi apartir de ciertas dadas, que explicaremos más abajo, para ver si el cambio climatico es real, es decir, para ver si el cambió climatico esta influenciando en la temperatura, en las lluvias, en la sequia... 
 
-En primer lugar haremos un análisi descriptivo calculando la matriz de correlación para ver cómo se relacionan las variables numéricas entre sí. Seguidamente, haremos 3 gráficos de barras , para isualizar que tipo de suceso és el más freqüente, y cual es la intensidad con la que ocurren. Y por último, haremos un ggplot para ver que tipo de eventos era más frecuente en cada periodo de tiempo. También realizaremos un grafico de barras para ver la distribución de cada evento por región.
+En primer lugar haremos un análisi descriptivo calculando la matriz de correlación para ver cómo se relacionan las variables numéricas entre sí. Seguidamente, haremos 3 gráficos de barras, para isualizar que tipo de suceso és el más freqüente, y cual es la intensidad con la que ocurren. Y por último, haremos un ggplot para ver que tipo de eventos era más frecuente en cada periodo de tiempo. También realizaremos un grafico de barras para ver la distribución de cada evento por región.
 
 Seguidamente, realizaremos un borxplot para analizar la temperatura global por tipo de evento y un gráfico de dispersión para así analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento. 
 
-Después, calcularemos las probabilidades de cada tipo de evento en un vector para la distribución multinomial, i después simulamos una muestra de tamaño 20 usando distribución multinomial. Finalmente, calcularemos la probabilidad de un evento de interés donde dicha muestra serà de tamaño 20.
+Después, calcularemos las probabilidades de cada tipo de evento en un vector para la distribución multinomial, i después simularemos una muestra de tamaño 20, usando la distribución multinomial. Finalmente, calcularemos la probabilidad de un evento de interés donde dicha muestra serà de tamaño 20.
 
-Suiguiendo con el análisi de las variables, haremos un ajeste en un modelo de regresión multivariante, donde utilizaremos el score, que es la diferencia entre los valores observados y los valores predichos por el modelo, lo que se conoce como residuales, i analizaremos los residuales para evaluar la precisión y ajuste del modelo.
+Suiguiendo con el análisi de las variables, haremos un ajuste en un modelo de regresión multivariante, donde utilizaremos el score, que es la diferencia entre los valores observados y los valores predichos por el modelo, lo que se conoce como residuales, i analizaremos los residuales para evaluar la precisión y ajuste del modelo.
 
 Finalmente, haremos dos contrastes de hipótesis:
 Uno primero que definiremos como:
@@ -50,7 +51,7 @@ Donde para poder sacar conclusiones, primero calcularemos la distancia de Mahala
 
 Y un segundo contraste en el cual queremos evaluar si existe una diferencia significativa en el vector de medias de las variables climáticas cuantitativas (`temp_global`, `dias_calor`, `dias_lluvia`, `F2021` Y `F2022`) entre dos tipos de eventos climáticos: "Ola de Calor" y "Sequía". Para ello realizaremos la prueba de Hotelling's ( T\^2 ), y nos da un p valor alto, por lo cual no podremos rechazar la hipotesis nul.la, es decir, no hay evidencia estadística suficiente para afirmar que las medias de las variables cuantitativas son significativamente diferentes entre los dos tipos de eventos ("Ola de Calor" y "Sequía").
 
-Por lo tanto, a lo largo de este análisi no sacamos una conclusiones exactas, lo cual seguramente viene dado por haver creado nosotros una tabla simulada (tabla1) sin coger datos reales, y luego intentar compararlo con unos datos reales. Por eso, para futuros informes recoendaria, buscar mas información sobre la tabla simulada para así intentar sacar unas mejores conclusiones.
+Por lo tanto, a lo largo de este análisi no sacamos ninguna conclusión afirmativa, lo cual seguramente viene dado por haver creado nosotros una tabla simulada (tabla1) sin coger datos reales, y luego intentar compararlo con unos datos reales. Por eso, para futuros informes recomendaria, buscar más información sobre la tabla simulada para así intentar sacar unas mejores conclusiones.
 
 # Definición de las variables
 
@@ -655,7 +656,9 @@ Aunque el valor p es alto, es importante recordar que esta conclusión depende d
 
 # Conclusiones i Recomendaciones
 
-Es importante considerar que los resultado de los dos Contrastes de hipótesis no descartan posibles diferencias en otros aspectos o bajo otros contextos; simplemente reflejan que,  las variables utilizadas no permiten distinguir entre "Ola de Calor" y "Sequía" de manera significativa. Recomendamos revisar el tamaño de la muestra, verificar los supuestos del modelo y, en futuros estudios, considerar variables adicionales o enfoques alternativos para obtener una comprensión más completa de las diferencias entre estos fenómenos climáticos. Es decir, al ser la tabla 1 una muestra aleatoria y la otra real, a la hora de concluïr no hemos podido sacar conclusiones claras.
+Es importante considerar que los resultado de los dos **Contrastes de hipótesis** no descartan posibles diferencias en otros aspectos o bajo otros contextos; simplemente reflejan que,  las variables utilizadas no permiten distinguir entre "Ola de Calor" y "Sequía" de manera significativa, o nos afirman que tengan una relación las variables cuantitativas.
+
+Recomendaria revisar el tamaño de la muestra, verificar los supuestos del modelo y, en futuros estudios, considerar variables adicionales o enfoques alternativos para obtener una comprensión más completa de las diferencias entre estos fenómenos climáticos. Es decir, al ser la tabla 1 una muestra aleatoria y la otra real, a la hora de concluïr no hemos podido sacar conclusiones claras.
 
 
 
