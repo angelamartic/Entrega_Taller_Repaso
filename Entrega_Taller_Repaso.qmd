@@ -32,26 +32,25 @@ El cambio climático está provocando un aumento en la temperatura media global,
 
 Nuestro objetivo es hacer un analisi apartir de ciertas dadas, que explicaremos más abajo, para ver si el cambio climatico es real, es decir, para ver si el cambió climatico esta influenciando en la temperatura, en las lluvias, en la sequia... 
 
-En primer lugar, vamos a analizar la tendéncia de la temperatura media global, és decir, vamos a: 
-- Examinar la evolución de la temperatura global a lo largo del periodo simulado (por ejemplo, de 2000 a 2023).
-- Confirmar si hay un incremento significativo en la temperatura media anual, lo cual es fundamental para explorar su posible relación con los fenómenos extremos.
-Para ello, haremos un análisis de series temporales y regresión lineal para identificar una tendencia significativa en los datos de temperatura global.
+En primer lugar haremos un análisi descriptivo calculando la matriz de correlación para ver cómo se relacionan las variables numéricas entre sí. Seguidamente, haremos 3 gráficos de barras , para isualizar que tipo de suceso és el más freqüente, y cual es la intensidad con la que ocurren. Y por último, haremos un ggplot para ver que tipo de eventos era más frecuente en cada periodo de tiempo. También realizaremos un grafico de barras para ver la distribución de cada evento por región.
 
-Seguidamente, estudiaremos la frecuencia de fenómenos meteorológicos extremos a lo largo del tiempo: - Cuantificaremos el número de días con temperaturas extremas (olas de calor) y de eventos de lluvias intensas en cada año del periodo simulado.
--Observaremos si hay un patrón creciente en la ocurrencia de estos fenómenos en las últimas décadas.
-Haremos gráficos de frecuencia anual y regresión para observar tendencias en la cantidad de fenómenos extremos.
+Seguidamente, realizaremos un borxplot para analizar la temperatura global por tipo de evento y un gráfico de dispersión para así analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento. 
 
-Después, examinamos la relación entre el aumento de la temperatura global y la frecuencia de fenómenos extremos, para ello: - Se analizar si los años con mayores temperaturas medias globales coinciden con una mayor frecuencia de fenómenos extremos.
-- Se evaluar la relación entre los incrementos en la temperatura global y la ocurrencia de olas de calor y lluvias intensas.
-La técnica, serà un análisis de correlación entre la temperatura media anual y la frecuencia de fenómenos extremos.
+Después, calcularemos las probabilidades de cada tipo de evento en un vector para la distribución multinomial, i después simulamos una muestra de tamaño 20 usando distribución multinomial. Finalmente, calcularemos la probabilidad de un evento de interés donde dicha muestra serà de tamaño 20.
 
-Seguidamente, cuantificaremos la magnitud del impacto del cambio climático en la frecuencia de fenómenos extremos, donde se: 
-- Calcula el grado en el que el aumento de la temperatura media global está asociado con el incremento de fenómenos extremos.
-- Proporcionar una estimación de cuántos eventos extremos adicionales se podrían atribuir al aumento de cada grado en la temperatura global.
-Técnica sugerida: Modelos de regresión lineal o Poisson para cuantificar el impacto directo del cambio de temperatura en la frecuencia de fenómenos.
-Evaluar posibles limitaciones del análisis:
+Suiguiendo con el análisi de las variables, haremos un ajeste en un modelo de regresión multivariante, donde utilizaremos el score, que es la diferencia entre los valores observados y los valores predichos por el modelo, lo que se conoce como residuales, i analizaremos los residuales para evaluar la precisión y ajuste del modelo.
 
-Finalmente, identificaremos posibles limitaciones en la simulación de datos y en la interpretación de los resultados, especialmente dado el uso de datos simulados.I proporcionaremos sugerencias para análisis futuros con datos reales y posibles mejoras en la metodología.
+Finalmente, haremos dos contrastes de hipótesis:
+Uno primero que definiremos como:
+
+- H_0: Las variables cuantitativas satisfacen una relación
+- H_1: Las variables cuantitativas no satisfacen ninguna relación
+
+Donde para poder sacar conclusiones, primero calcularemos la distancia de Mahalaondis y después haremos la pueba $\chi^2$, y veremos que no sigue esa distribución y por o tanto rechaza la hipotesis nul.la es decir, rechazamos que las variables tienen alguna relación.
+
+Y un segundo contraste en el cual queremos evaluar si existe una diferencia significativa en el vector de medias de las variables climáticas cuantitativas (`temp_global`, `dias_calor`, `dias_lluvia`, `F2021` Y `F2022`) entre dos tipos de eventos climáticos: "Ola de Calor" y "Sequía". Para ello realizaremos la prueba de Hotelling's ( T\^2 ), y nos da un p valor alto, por lo cual no podremos rechazar la hipotesis nul.la, es decir, no hay evidencia estadística suficiente para afirmar que las medias de las variables cuantitativas son significativamente diferentes entre los dos tipos de eventos ("Ola de Calor" y "Sequía").
+
+Por lo tanto, a lo largo de este análisi no sacamos una conclusiones exactas, lo cual seguramente viene dado por haver creado nosotros una tabla simulada (tabla1) sin coger datos reales, y luego intentar compararlo con unos datos reales. Por eso, para futuros informes recoendaria, buscar mas información sobre la tabla simulada para así intentar sacar unas mejores conclusiones.
 
 # Definición de las variables
 
@@ -233,10 +232,11 @@ tabla_combinada <- tabla_combinada %>%
 #summary(tabla_combinada)
 ```
 
+# Análisi de los datos 
 
-# Anàlisi Descriptivo
+Primero, vamos a realizar un anàlisi descriptivo
 
-En primer lugar, vamos a calcular la matriz de correlación para ver cómo se relacionan las variables numéricas entre sí.
+En primer lugar, vamos a calcular la matriz de correlación para ver cómo se relacionan las variables numéricas entre sí. Es decir vamos a representar la matriz de correlación y de dispersión para varias variables climáticas, mostrando sus relaciones entre sí.
 
 
 ```{r, echo=FALSE}
@@ -253,9 +253,21 @@ ggpairs(tabla_combinada %>%
         title = "Matriz de Gráficos de Pares de Variables Cuantitativas")
 
 ```
-COMENTAR
+
+- temp_global1: Representa la temperatura global en algún rango de años. No parece tener una correlación fuerte con otras variables en este gráfico, ya que todas las correlaciones están por debajo de 0.35, indicando relaciones débiles o inexistentes con las otras variables.
+
+- dias_calor1: Se refiere a la cantidad de días calurosos. Su relación más fuerte es con dias_lluvia1 (correlación de 0.290), lo cual indica una relación positiva débil, sugiriendo que a medida que aumentan los días de calor, también aumentan los días de lluvia, aunque de forma limitada.
+
+- dias_lluvia1: Representa los días de lluvia. Tiene una correlación positiva de 0.340 con precipitacion_total1, lo cual es lógico, ya que más días de lluvia suelen asociarse con una mayor precipitación total.
+
+- precipitacion_total1: La cantidad total de precipitación también tiene una correlación positiva de 0.120 con F2021, sugiriendo que en los años en que la variación de temperatura fue más alta, también hubo una leve tendencia a que aumentara la precipitación, aunque esta relación es bastante débil.
+
+- F2021 y F2022: Representan las variaciones de temperatura entre los años 1958-1961 y 2021 y 2022, respectivamente. Hay una correlación moderada (0.533) entre F2021 y F2022, lo cual es esperable si consideramos que las variaciones en la temperatura de un año suelen correlacionarse con las del siguiente. Sin embargo, ambas tienen correlaciones muy bajas con las demás variables climáticas, lo cual sugiere que los cambios de temperatura no están fuertemente relacionados con los días de calor, lluvia o la precipitación total en este conjunto de datos.
+
+En resumen, no parece haber una relación fuerte entre las variables de días de calor, lluvia y precipitación total con las variaciones de temperatura representadas por F2021 y F2022. Esto podría indicar que, en este conjunto de datos, los cambios en la temperatura global no están claramente asociados con los días de calor o lluvia ni con la cantidad de precipitación anual. La correlación más destacada es entre F2021 y F2022, lo cual es consistente con la tendencia de que las variaciones de temperatura interanuales están relacionadas, reflejando un patrón de continuidad en los cambios de temperatura.
 
 Ahora, vamos a ver 3 cosas a partir de los graficos de barras. Vamos a visualizar que tipo de suceso és el más freqüente, y cual es la intensidad con la que ocurren.
+
 
 ```{r, echo=FALSE}
 # Gráfico de barras para variables ordinales y nominales
@@ -284,7 +296,7 @@ tabla_combinada %>%
 
 A partir de estos tres gràfics de barras, vemos que el evento que más se produce en la lluvia intesa, seguidos de las olas de calor. También nos damos cuenta de que la intensidad de las olas de calor, cundo se producen, són de nivel alto o extremo. En canbio, la intensidad de las lluvias es baja-moderada, aunque vemos que la freqüéncia de la alta intensidad de lluvias también està bastante elevada.
 
-Ahora vamos a ver, que tipo de evntos era más frequente, por cada periodo de tiempo.
+Ahora vamos a ver, que tipo de eventos era más frecuente, por cada periodo de tiempo.
 
 ```{r, echo=FALSE}
 tabla_combinada %>%
@@ -341,9 +353,6 @@ La sequía es un problema en África y América Latina, indicando que estas regi
 
 És decir, este gráfico refleja cómo el cambio climático y los eventos extremos afectan de forma diferenciada a las regiones.
 
-
-
-
 Seguidamente, vamos a hacer un borxplot para analizar la temperatura global por tipo de evento y un gráfico de dispersión para analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento.
 
 ```{r, echo=FALSE}
@@ -376,7 +385,10 @@ En este gráfico, sin embargo, no parece haber una relación fuerte entre los ti
 
 En resumen, aunque la variación de temperatura global parece depender en cierta medida del tipo de evento, no se observa una relación lineal o directa entre la precipitación total y la variación de la temperatura global según el tipo de evento. Esto indica una posible complejidad en la relación entre estos factores climáticos lo qual viene dado de que algunos datos són simulados.
 
+Seguidamente, vamos a hacer un borxplot para analizar la temperatura global por tipo de evento y un gráfico de dispersión para analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento.
+
 Ahora, selectionamos la variable "tipo_evento" i la modelízamos con una distribución multinomial, para así, estimar sus parámetros.
+
 
 Primero, calculamos las probabilidad de cada tipo de evento:
 
@@ -391,6 +403,7 @@ probabilidades_evento
 
 Seguidamente, extraemos las probabilidades en un vector para la distribución multinomial, i después simulamos una muestra de tamaño 20 usando distribución multinomial, lo qual genera el número esperado de cada tipo de evento en dicha muestra de tamaño 20.
 
+
 ```{r, echo=FALSE}
 probs <- probabilidades_evento$probabilidad #extraemos probabilidad
 set.seed(42)  # Fijar semilla para reproducibilidad
@@ -402,7 +415,7 @@ colnames(muestra_multinomial) <- c("Simulación")
 print(muestra_multinomial)
 ```
 
-Finalmente, calcularmos la probabilidad de un evento de interés, por ejemplo "Inundación", donde dicha muestra es de tamaño 20.
+Finalmente, calculamos la probabilidad de un evento de interés, por ejemplo "Inundación", donde dicha muestra es de tamaño 20.
 
 ```{r, echo=FALSE}
 # Probabilidad de observar al menos una "Ola de Calor" en la muestra de tamaño 20
@@ -416,11 +429,11 @@ cat("La probabilidad de observar al menos una 'Inundación' en una muestra de ta
 
 Este análisis nos permite evaluar la probabilidad de ocurrencia de la inundación en una muestra simulada, lo cual,nos ha sido útil para comprender la frecuencia esperada de eventos extremos en el contexto del cambio climático.
 
-# Modelo de regresión multivariante
 
 Ahora, con las variables cuantitativas de nuestra base de datos, ajustaremos un modelo de regresión multivariante en la siguiente forma:
 
 $$Y=\beta_0+\beta_1 X_1+ \cdots + \beta_p X_p + \epsilon$$ Donde $Y$ es la variable cuantitativa que deseamos explicar en función del resto de variables cuantitativas registradas, es decir, la variable dependiente que en nustro caso sera "temp_global" y 'dias_calor', 'dias_lluvia', y 'precipitacion_total' son las variables independientes (X_1, X_2, X_3).
+
 
 "El score es la diferencia entre los valores observados y los valores predichos por el modelo, lo que se conoce como residuales. Analizaremos los residuales para evaluar la precisión y ajuste del modelo."
 
@@ -509,10 +522,9 @@ Calcularemos la distància de Mahalaondis, para ver si si nuestras variables sat
 
 Definimos las hipótesis nula y alternativa de la siguiente manera:
 
-- H_0: Las variables cuantitativas satisfacen una relación
+- H_0: Las variables cuantitativas satisfacen una relación (és decir, los datos en dist_mahalanobis siguen una distribución ji-cuadrado con 6 grados de libertad.)
 
-- H_1: Las variables cuantitativas no satisfacen ninguna relación
-
+- H_1: Las variables cuantitativas no satisfacen ninguna relación (és decir, Los datos en dist_mahalanobis no siguen una distribución ji-cuadrado con 6 grados de libertad.)
 
 Para ello, primero utilizaremos la función de R de mahalaondis. Después, la añadiremos, como una columna nueva a nuestra tabla combinada. Después, crearemos una matriz transpuesta y calcukaremos de igual forma la distancia de mahalaondis tranformada, y la añadiremos también a nuestra tabla combinada, es decir la tabla con la que estaos trabajando. 
 
@@ -557,7 +569,7 @@ tabla_combinada_maha <- tabla_combinada_maha %>%
 
 
 ```
-Ahora, vamos a visualizar el histograma para la distancia de Mahalanobis original y para la distancia de Mahalanobis transformada.
+Ahora, vamos a visualizar el histograma para la distancia de Mahalanobis original.
 
 ```{r, echo=FALSE}
 # Cargar la librería necesaria para la visualización
@@ -569,34 +581,23 @@ k <- ncol(datos_num)
 # Histograma para la distancia de Mahalanobis original
 ggplot(tabla_combinada_maha, aes(x = mahalanobis_d2)) +
   geom_histogram(aes(y = ..density..), bins = 30, fill = "skyblue", color = "black", alpha = 0.7) +
-  stat_function(fun = dchisq, args = list(df = k), color = "red", size = 1.5) +
+  stat_function(fun = dchisq, args = list(df = 6), color = "red", size = 1.5) +
   labs(title = "Distribución de Distancias Mahalanobis al Cuadrado (Original)",
        subtitle = paste("Comparación con la distribución Chi-cuadrado con", k, "grados de libertad"),
        x = "Distancia Mahalanobis al Cuadrado",
        y = "Densidad") +
   theme_minimal()
 
-# Histograma para la distancia de Mahalanobis transformada
-ggplot(tabla_combinada_maha, aes(x = dist_mahalanobis_transformado)) +
-  geom_histogram(aes(y = ..density..), bins = 30, fill = "skyblue", color = "black", alpha = 0.7) +
-  stat_function(fun = dchisq, args = list(df = k), color = "red", size = 1.5) +
-  labs(title = "Distribución de Distancias Mahalanobis al Cuadrado (Transformada)",
-       subtitle = paste("Comparación con la distribución Chi-cuadrado con", k, "grados de libertad"),
-       x = "Distancia Mahalanobis Transformada al Cuadrado",
-       y = "Densidad") +
-  theme_minimal()
-
-
 ```
-Como vemos, la distancia de Mahalanobis original si que parece que sigue una distribución $\chi^2_6$, pero en cambio la transformada no. Hagamos la prueba estadística para confirmar distribución $\chi^2_6$.
+Como vemos, la distancia de Mahalanobis original intenta parecer-se un poco a una distribución $\chi^2_6$, aunque hay una barra que descuadra, pero, en cambio, la transformada no se parece en nada. Hagamos la prueba estadística para ver si podemos confirmar la distribución $\chi^2_6$.
 
 ```{r, echo=FALSE}
 # Prueba estadística para confirmar distribución ji-cuadrado
-ks.test(dist_mahalanobis, "pchisq", df = 3)
+ks.test(dist_mahalanobis, "pchisq", df = 6)
 
 ```
 
-Como el $p-value<0.05$, entonces tenemos que efectivamente sigue una $\chi^2_6$.
+Como el $p-value<0.05$, entonces tenemos  los datos de dist_mahalanobis no siguen una distribución ji-cuadrado con 6 grados de libertad, ya que tenemos suficiente evidencia para rechazar la hipótesis nula. Esto sugiere que los datos no se ajustan bien a una distribución ji-cuadrado, por lo que puede ser necesario considerar otro modelo o verificar si existen problemas en los datos o en los supuestos del análisis. Esto era predicible, ya que las dos variables que hemos añadido de la tabla2 no siguen una distribución normal multivariante.
 
 Vamos a realizar otro contraste de hipótesis
 
@@ -650,6 +651,13 @@ Si $p_{valor} ≥ 0.05$: No rechazamos la hipótesis nula, lo cual indica que no
 Por lo tanto, como el p_valor es $0.9672$, tenemos que no podemos rechazar la hipotesis nula.Esto significa que no hay evidencia estadística suficiente para afirmar que las medias de las variables cuantitativas son significativamente diferentes entre los dos tipos de eventos ("Ola de Calor" y "Sequía").
 
 Aunque el valor p es alto, es importante recordar que esta conclusión depende de la calidad de los datos, el tamaño de la muestra y los supuestos del modelo.
+
+
+# Conclusiones i Recomendaciones
+
+Es importante considerar que los resultado de los dos Contrastes de hipótesis no descartan posibles diferencias en otros aspectos o bajo otros contextos; simplemente reflejan que,  las variables utilizadas no permiten distinguir entre "Ola de Calor" y "Sequía" de manera significativa. Recomendamos revisar el tamaño de la muestra, verificar los supuestos del modelo y, en futuros estudios, considerar variables adicionales o enfoques alternativos para obtener una comprensión más completa de las diferencias entre estos fenómenos climáticos. Es decir, al ser la tabla 1 una muestra aleatoria y la otra real, a la hora de concluïr no hemos podido sacar conclusiones claras.
+
+
 
 
 
