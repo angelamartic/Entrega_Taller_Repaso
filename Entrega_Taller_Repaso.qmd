@@ -53,6 +53,8 @@ Y un segundo contraste en el cual queremos evaluar si existe una diferencia sign
 
 Por lo tanto, a lo largo de este análisi no sacamos ninguna conclusión afirmativa, lo cual seguramente viene dado por haver creado nosotros una tabla simulada (tabla1) sin coger datos reales, y luego intentar compararlo con unos datos reales. Por eso, para futuros informes recomendaria, buscar más información sobre la tabla simulada para así intentar sacar unas mejores conclusiones.
 
+[URL_GITHUB_ENTREGA](https://github.com/angelamartic/Entrega_Taller_Repaso.git)
+
 # Definición de las variables
 
 En primer lugar, vamos a definir la variables clave para nuestra hipòtesis, donde tendremos cuatro variables cuantitativas, tres ordinales y dos nominales, que són: 
