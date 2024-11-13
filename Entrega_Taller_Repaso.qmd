@@ -488,13 +488,13 @@ Observamos que la mayoría de los puntos se encuentran cerca de la línea roja (
 No parece haber un patrón claro en la dispersión de los puntos, lo cual es una buena señal. En un modelo de regresión lineal, se espera que los residuales estén distribuidos aleatoriamente sin patrones obvios, lo cual indicaría que el modelo capturó bien la relación lineal entre las variables.
 
 Si hacemos ahora, la prueva de Shapiro-Test, obtenemos:
-```{r}
+```{r,echo=FALSE}
 shapiro.test(resid(modelo))
 ```
 Por lo tanto, como el $p_{valor}>0.05$, nos indica que los iresiduales son normales.
 
 Ahora, si utilizamos el ANOVA, tenemos que:
-```{r}
+```{r,echo=FALSE}
 modelo_alternativo <- lm(temp_global1 ~ F2021, data = tabla_combinada)
 anova(modelo, modelo_alternativo)
 
@@ -505,7 +505,7 @@ Como El valor p para el estadístico F es 0.9356, que es muy alto $(>0.05)$. Est
 
 Visualizamos ahora solo el modelo con $F2021$:
 
-```{r}
+```{r,echo=FALSE}
 library(ggplot2)
 ggplot(tabla_combinada, aes(x = F2021, y = temp_global1)) +
     geom_point() +
