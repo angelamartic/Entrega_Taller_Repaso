@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Taller evaluado de repaso para el Primer Parcial - Àngela Martí Calatayud</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Entrega_Taller_Repaso_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Entrega_Taller_Repaso_files/libs/quarto-html/quarto.js"></script>
+<script src="Entrega_Taller_Repaso_files/libs/quarto-html/popper.min.js"></script>
+<script src="Entrega_Taller_Repaso_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Entrega_Taller_Repaso_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Entrega_Taller_Repaso_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Entrega_Taller_Repaso_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Entrega_Taller_Repaso_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Entrega_Taller_Repaso_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Entrega_Taller_Repaso_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#definición-de-las-variables" id="toc-definición-de-las-variables" class="nav-link active" data-scroll-target="#definición-de-las-variables">Definición de las variables</a></li>
+  <li><a href="#análisi-de-los-datos" id="toc-análisi-de-los-datos" class="nav-link" data-scroll-target="#análisi-de-los-datos">Análisi de los datos</a></li>
+  <li><a href="#conclusiones-i-recomendaciones" id="toc-conclusiones-i-recomendaciones" class="nav-link" data-scroll-target="#conclusiones-i-recomendaciones">Conclusiones i Recomendaciones</a></li>
+  <li><a href="#bibliografía" id="toc-bibliografía" class="nav-link" data-scroll-target="#bibliografía">Bibliografía</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Taller evaluado de repaso para el Primer Parcial - Àngela Martí Calatayud</h1>
+<p class="subtitle lead">20582- Análisis de Datos para el GMAT</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>El cambio climático está provocando un aumento en la temperatura media global, lo que a su vez incrementa la frecuencia y severidad de fenómenos meteorológicos extremos, como olas de calor y lluvias intensas, como hemos visto esta última semana en Valencia.</p>
+<p>Nuestro objetivo es hacer un analisi apartir de ciertas dadas, que explicaremos más abajo, para ver si el cambio climatico es real, es decir, para ver si el cambió climatico esta influenciando en la temperatura, en las lluvias, en la sequia…</p>
+<p>En primer lugar haremos un análisi descriptivo calculando la matriz de correlación para ver cómo se relacionan las variables numéricas entre sí. Seguidamente, haremos 3 gráficos de barras, para isualizar que tipo de suceso és el más freqüente, y cual es la intensidad con la que ocurren. Y por último, haremos un ggplot para ver que tipo de eventos era más frecuente en cada periodo de tiempo. También realizaremos un grafico de barras para ver la distribución de cada evento por región.</p>
+<p>Seguidamente, realizaremos un borxplot para analizar la temperatura global por tipo de evento y un gráfico de dispersión para así analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento.</p>
+<p>Después, calcularemos las probabilidades de cada tipo de evento en un vector para la distribución multinomial, i después simularemos una muestra de tamaño 20, usando la distribución multinomial. Finalmente, calcularemos la probabilidad de un evento de interés donde dicha muestra serà de tamaño 20.</p>
+<p>Suiguiendo con el análisi de las variables, haremos un ajuste en un modelo de regresión multivariante, donde utilizaremos el score, que es la diferencia entre los valores observados y los valores predichos por el modelo, lo que se conoce como residuales, i analizaremos los residuales para evaluar la precisión y ajuste del modelo.</p>
+<p>Finalmente, haremos dos contrastes de hipótesis: Uno primero que definiremos como:</p>
+<ul>
+<li>H_0: Las variables cuantitativas satisfacen una relación</li>
+<li>H_1: Las variables cuantitativas no satisfacen ninguna relación</li>
+</ul>
+<p>Donde para poder sacar conclusiones, primero calcularemos la distancia de Mahalaondis y después haremos la pueba <span class="math inline">\(\chi^2\)</span>, y veremos que no sigue esa distribución y por o tanto rechaza la hipotesis nul.la es decir, rechazamos que las variables tienen alguna relación.</p>
+<p>Y un segundo contraste en el cual queremos evaluar si existe una diferencia significativa en el vector de medias de las variables climáticas cuantitativas (<code>temp_global</code>, <code>dias_calor</code>, <code>dias_lluvia</code>, <code>F2021</code> Y <code>F2022</code>) entre dos tipos de eventos climáticos: “Ola de Calor” y “Sequía”. Para ello realizaremos la prueba de Hotelling’s ( T^2 ), y nos da un p valor alto, por lo cual no podremos rechazar la hipotesis nul.la, es decir, no hay evidencia estadística suficiente para afirmar que las medias de las variables cuantitativas son significativamente diferentes entre los dos tipos de eventos (“Ola de Calor” y “Sequía”).</p>
+<p>Por lo tanto, a lo largo de este análisi no sacamos ninguna conclusión afirmativa, lo cual seguramente viene dado por haver creado nosotros una tabla simulada (tabla1) sin coger datos reales, y luego intentar compararlo con unos datos reales. Por eso, para futuros informes recomendaria, buscar más información sobre la tabla simulada para así intentar sacar unas mejores conclusiones.</p>
+<p><a href="https://github.com/angelamartic/Entrega_Taller_Repaso.git">URL_GITHUB_ENTREGA</a></p>
+<section id="definición-de-las-variables" class="level1">
+<h1>Definición de las variables</h1>
+<p>En primer lugar, vamos a definir la variables clave para nuestra hipòtesis, donde tendremos cuatro variables cuantitativas, tres ordinales y dos nominales, que són: - Variables Ordinales: - Temperatura Media Global Anual (ºC) - Número de Días de Olas de Calor (días) - Número de Días de Lluvias Intensas (días) - Precipitación Anual Total en milímetros (mm) - Variables Cualitativas (hacer mosaico) - Severidad de las Olas de Calor (Baja, Moderada, Alta, Extrema) - Intensidad de Lluvias Intensas (Baja, Moderada, Alta) - Período de Tiempo (“1980-1990”, “1991-2000”, “2001-2010”, “2011-2020”) - Variables Nominales - Región Geográfica (América del Norte, Europa, Asia, América Latina, África) - Tipo de Evento (Ola de Calor, Lluvia Intensa, Sequía, Inundación)</p>
+<p>Seguidamente, generaramos una tabla, que la llamaremos como tabla1, con al menos 100 abservaciones, donde las variables cuantitativas sigan una distribución normal multivariante.</p>
+<p>Sguidamente, a partir de <a href="https://www.kaggle.com/">Kaggle</a>, hemos extraído un .csv llamado como climate_change_indicators.csv, que nos quedamos solo con las variables “Country”, “F2021”, “F2022”, donde estas dos últimas nos indican el cambio de temperatura con respecto a una climatología de referencia, correspondiente al período 1951-1980. Con la variable “Country”, haremos un par de modificaciones, para así, despues poder unificar estas dos tablas. Lo que haremos serà todos los valores que aparecen el la variable “Country”, las distribuïmos en las regiones de la tabla 1, depeniendo a cual correspondan, que són América del Norte, Europa, Asia, América Latina, África .</p>
+<p>Finalmente, uniremos la dos tablas creados creando unatabla unificada a partir de la cual haremos el analisi para extraer las conclusiones.</p>
+</section>
+<section id="análisi-de-los-datos" class="level1">
+<h1>Análisi de los datos</h1>
+<p>Primero, vamos a realizar un anàlisi descriptivo</p>
+<p>En primer lugar, vamos a calcular la matriz de correlación para ver cómo se relacionan las variables numéricas entre sí. Es decir vamos a representar la matriz de correlación y de dispersión para varias variables climáticas, mostrando sus relaciones entre sí.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>temp_global1: Representa la temperatura global en algún rango de años. No parece tener una correlación fuerte con otras variables en este gráfico, ya que todas las correlaciones están por debajo de 0.35, indicando relaciones débiles o inexistentes con las otras variables.</p></li>
+<li><p>dias_calor1: Se refiere a la cantidad de días calurosos. Su relación más fuerte es con dias_lluvia1 (correlación de 0.290), lo cual indica una relación positiva débil, sugiriendo que a medida que aumentan los días de calor, también aumentan los días de lluvia, aunque de forma limitada.</p></li>
+<li><p>dias_lluvia1: Representa los días de lluvia. Tiene una correlación positiva de 0.340 con precipitacion_total1, lo cual es lógico, ya que más días de lluvia suelen asociarse con una mayor precipitación total.</p></li>
+<li><p>precipitacion_total1: La cantidad total de precipitación también tiene una correlación positiva de 0.120 con F2021, sugiriendo que en los años en que la variación de temperatura fue más alta, también hubo una leve tendencia a que aumentara la precipitación, aunque esta relación es bastante débil.</p></li>
+<li><p>F2021 y F2022: Representan las variaciones de temperatura entre los años 1958-1961 y 2021 y 2022, respectivamente. Hay una correlación moderada (0.533) entre F2021 y F2022, lo cual es esperable si consideramos que las variaciones en la temperatura de un año suelen correlacionarse con las del siguiente. Sin embargo, ambas tienen correlaciones muy bajas con las demás variables climáticas, lo cual sugiere que los cambios de temperatura no están fuertemente relacionados con los días de calor, lluvia o la precipitación total en este conjunto de datos.</p></li>
+</ul>
+<p>En resumen, no parece haber una relación fuerte entre las variables de días de calor, lluvia y precipitación total con las variaciones de temperatura representadas por F2021 y F2022. Esto podría indicar que, en este conjunto de datos, los cambios en la temperatura global no están claramente asociados con los días de calor o lluvia ni con la cantidad de precipitación anual. La correlación más destacada es entre F2021 y F2022, lo cual es consistente con la tendencia de que las variaciones de temperatura interanuales están relacionadas, reflejando un patrón de continuidad en los cambios de temperatura.</p>
+<p>Ahora, vamos a ver 3 cosas a partir de los graficos de barras. Vamos a visualizar que tipo de suceso és el más freqüente, y cual es la intensidad con la que ocurren.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A partir de estos tres gràfics de barras, vemos que el evento que más se produce en la lluvia intesa, seguidos de las olas de calor. También nos damos cuenta de que la intensidad de las olas de calor, cundo se producen, són de nivel alto o extremo. En canbio, la intensidad de las lluvias es baja-moderada, aunque vemos que la freqüéncia de la alta intensidad de lluvias también està bastante elevada.</p>
+<p>Ahora vamos a ver, que tipo de eventos era más frecuente, por cada periodo de tiempo.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Vemos facilmente, que la lluvia intensa siempre esta entre los tres primeros. En canbio, obersvamos que las olas de calor, han estado disminuyendo a lo largo de los años. (Es facil darse cuenta de que estos datos són aleatorios ya que este año pasado las olas de calor han sido mayores que a otros años).</p>
+<p>Ahora, vamos a hacer el grafico del mosaico, con respecto a la tabla1</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>El gráfico muestra la distribución de eventos climáticos/extremos en diferentes regiones del mundo, como África, América del Norte, América Latina, Asia, y Europa.</p>
+<p>En el eje vertical está el tipo de evento (como ola de calor, lluvia intensa, inundación, y sequía), mientras que en el eje horizontal están las regiones geográficas.</p>
+<p>Sabemos que la intensidad del color y el tamaño de los bloques representan la frecuencia o relevancia de cada tipo de evento en cada región. Los bloques más oscuros y grandes indican una mayor prevalencia de ese tipo de evento en esa región específica.</p>
+<p>Por ejemplo, en África y América del Norte, el bloque para olas de calor es grande y oscuro, sugiriendo que estos eventos son más comunes o impactantes en esas regiones.</p>
+<p>Observamos entonces que:</p>
+<ul>
+<li><p>Olas de Calor: Son especialmente frecuentes en África, América del Norte y Europa (bloques grandes y oscuros en estas regiones), lo que podría reflejar patrones de cambio climático que afectan más a estas áreas.</p></li>
+<li><p>Lluvia Intensa: Aparece de manera más equilibrada en casi todas las regiones, aunque es especialmente notable en Asia, donde el bloque es más grande.</p></li>
+<li><p>Inundación: También es más prominente en Asia, seguida de América del Norte y América Latina, lo cual puede estar relacionado con las características climáticas y geográficas de estas regiones (monzones en Asia, huracanes en América).</p></li>
+<li><p>Sequía: Es relevante en África y América Latina, aunque es menos significativa en otras regiones como Europa y América del Norte.</p></li>
+</ul>
+<p>Por lo tanto, el mosaico sugiere que distintas regiones enfrentan distintos desafíos climáticos. África, América del Norte y Europa enfrentan principalmente olas de calor, mientras que Asia enfrenta lluvias intensas e inundaciones de manera más notable.</p>
+<p>La sequía es un problema en África y América Latina, indicando que estas regiones podrían tener problemas relacionados con la disponibilidad de agua y la agricultura.</p>
+<p>És decir, este gráfico refleja cómo el cambio climático y los eventos extremos afectan de forma diferenciada a las regiones.</p>
+<p>Seguidamente, vamos a hacer un borxplot para analizar la temperatura global por tipo de evento y un gráfico de dispersión para analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Sabemos que cada caja representa un rango de de la variación de las temperaturas globales respecto de los años 1951-198 en 2022 asociadas con un tipo específico de evento climático. Además, la línea dentro de cada caja muestra la mediana de las variaciones de la temperatura para cada tipo de evento. Y los límites de cada caja (percentiles 25 y 75) indican el rango intercuartílico, y las líneas o “bigotes” representan los valores que caen dentro de 1.5 veces el rango intercuartílico por debajo o por encima de los percentiles. Los puntos fuera de los bigotes se consideran valores atípicos.</p>
+<p>El gráfico sugiere que el tipo de evento puede influir en la variabilidad de la temperatura global. “Inundación” parece estar asociado con una mayor variabilidad de la temperatura, mientras que “Ola de Calor” tiene una distribución más concentrada alrededor de la mediana. Además, los eventos de “Sequía” presentan una mayor dispersión en los valores de variación de temperatura y algunos valores atípicos. Esto podría indicar que la temperatura global varía de manera diferente según el tipo de evento, lo cual podría ser un aspecto relevante para futuros análisis.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Mirando la distribución general de los eventos, no se observa una relación clara entre la precipitación total y la variación de la temperatura global en 2022. Los puntos parecen dispersarse de forma aleatoria, lo que sugiere que la precipitación total no está fuertemente correlacionada con la variación de la temperatura global en este conjunto de datos. En este gráfico, los puntos de los distintos tipos de eventos (representados por diferentes colores) están distribuidos de forma amplia y uniforme en el rango de precipitación y variación de temperatura.</p>
+<p>Comparando este grafico con el anterior, vemos que en el gráfico de cajas, algunos eventos (como las inundaciones) tenían una mediana de variación de temperatura global ligeramente superior, mientras que otros eventos, como las olas de calor, mostraban una menor dispersión en los valores de temperatura. Esto indicaba posibles diferencias en la variación de la temperatura según el tipo de evento. En este gráfico, sin embargo, no parece haber una relación fuerte entre los tipos de eventos y la precipitación total en relación con la temperatura global. Esto podría interpretarse como una falta de influencia significativa de la precipitación total en la variación de temperatura cuando se consideran diferentes eventos.</p>
+<p>En resumen, aunque la variación de temperatura global parece depender en cierta medida del tipo de evento, no se observa una relación lineal o directa entre la precipitación total y la variación de la temperatura global según el tipo de evento. Esto indica una posible complejidad en la relación entre estos factores climáticos lo qual viene dado de que algunos datos són simulados.</p>
+<p>Seguidamente, vamos a hacer un borxplot para analizar la temperatura global por tipo de evento y un gráfico de dispersión para analizar la relación entre la precipitación total y la temperatura global, coloreando por tipo de evento.</p>
+<p>Ahora, selectionamos la variable “tipo_evento” i la modelízamos con una distribución multinomial, para así, estimar sus parámetros.</p>
+<p>Primero, calculamos las probabilidad de cada tipo de evento:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>    tipo_evento1  n probabilidad
+1     Inundación 32    0.2285714
+2 Lluvia Intensa 41    0.2928571
+3   Ola de Calor 37    0.2642857
+4         Sequía 30    0.2142857</code></pre>
+</div>
+</div>
+<p>Seguidamente, extraemos las probabilidades en un vector para la distribución multinomial, i después simulamos una muestra de tamaño 20 usando distribución multinomial, lo qual genera el número esperado de cada tipo de evento en dicha muestra de tamaño 20.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>               Simulación
+Inundación              7
+Lluvia Intensa          8
+Ola de Calor            3
+Sequía                  2</code></pre>
+</div>
+</div>
+<p>Finalmente, calculamos la probabilidad de un evento de interés, por ejemplo “Inundación”, donde dicha muestra es de tamaño 20.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>La probabilidad de observar al menos una 'Inundación' en una muestra de tamaño 20 es: 0.9944292 </code></pre>
+</div>
+</div>
+<p>Este análisis nos permite evaluar la probabilidad de ocurrencia de la inundación en una muestra simulada, lo cual,nos ha sido útil para comprender la frecuencia esperada de eventos extremos en el contexto del cambio climático.</p>
+<p>Ahora, con las variables cuantitativas de nuestra base de datos, ajustaremos un modelo de regresión multivariante en la siguiente forma:</p>
+<p><span class="math display">\[Y=\beta_0+\beta_1 X_1+ \cdots + \beta_p X_p + \epsilon\]</span> Donde <span class="math inline">\(Y\)</span> es la variable cuantitativa que deseamos explicar en función del resto de variables cuantitativas registradas, es decir, la variable dependiente que en nustro caso sera “temp_global” y ‘dias_calor’, ‘dias_lluvia’, y ‘precipitacion_total’ son las variables independientes (X_1, X_2, X_3).</p>
+<p>“El score es la diferencia entre los valores observados y los valores predichos por el modelo, lo que se conoce como residuales. Analizaremos los residuales para evaluar la precisión y ajuste del modelo.”</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Los primeros valores de los residuales (score) son:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          1           2           3           4           5           6 
+ 0.28934017  0.07138085 -0.19153265 -0.29153265  0.68035387  0.38035387 </code></pre>
+</div>
+</div>
+<p>Vamos a visualizar el histográma para ver su distribución:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observamos que la forma de la distribución de los residuales es aproximadamente simétrica y se asemeja a una distribución normal centrada en 0. Por lo tanto, arece que el modelo de regresión ajustado es adecuado y cumple con los supuestos básicos de la regresión lineal.</p>
+<p>Por ùltimo, como no se observan residuales muy alejados de 0, indica que no hay outliers (valores atípicos) evidentes en los datos.</p>
+<p>Veamos ahora si hay alguna tendéncia o patron en los errores:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Los ejes del gráfico nos indican lo siguiente: - Eje X (Valores Predichos): Representa los valores de temp_global1 que el modelo predice basándose en los valores de F2021 y F2022. - Eje Y (Residuales): Muestra los errores o diferencias entre los valores observados de temp_global1 y los valores que el modelo predice. Idealmente, estos residuales deberían estar distribuidos de forma aleatoria alrededor de 0.</p>
+<p>Observamos que la mayoría de los puntos se encuentran cerca de la línea roja (que representa el valor 0 en los residuales), lo cual sugiere que los errores están bastante centrados alrededor de 0. Esto es positivo, ya que indica que el modelo no está sistemáticamente subestimando ni sobreestimando los valores. No parece haber un patrón claro en la dispersión de los puntos, lo cual es una buena señal. En un modelo de regresión lineal, se espera que los residuales estén distribuidos aleatoriamente sin patrones obvios, lo cual indicaría que el modelo capturó bien la relación lineal entre las variables.</p>
+<p>Si hacemos ahora, la prueva de Shapiro-Test, obtenemos:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  resid(modelo)
+W = 0.99567, p-value = 0.9535</code></pre>
+</div>
+</div>
+<p>Por lo tanto, como el <span class="math inline">\(p_{valor}&gt;0.05\)</span>, nos indica que los iresiduales son normales.</p>
+<p>Ahora, si utilizamos el ANOVA, tenemos que:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: temp_global1 ~ F2021 + F2022
+Model 2: temp_global1 ~ F2021
+  Res.Df    RSS Df   Sum of Sq      F Pr(&gt;F)
+1    137 12.044                             
+2    138 12.045 -1 -0.00057608 0.0066 0.9356</code></pre>
+</div>
+</div>
+<p>Como El valor p para el estadístico F es 0.9356, que es muy alto <span class="math inline">\((&gt;0.05)\)</span>. Esto indica que no hay evidencia significativa de que F2022 mejore el modelo de predicción de temp_global1 cuando F2021 ya está en el modelo. És decir, esto sugiere que añadir F2022 no aporta una mejora significativa al ajuste del modelo. Por lo tanto, el modelo con solo F2021 es suficiente y más adecuado desde una perspectiva de simplicidad y eficiencia.</p>
+<p>Visualizamos ahora solo el modelo con <span class="math inline">\(F2021\)</span>:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observamos que la línea de regresión muestra una leve relación positiva entre F2021 y temp_global1, es decir, a mayor F2021, temp_global1 tiende a subir ligeramente. Però los puntos están dispersos, lo que indica que F2021 explica poco de la variabilidad en temp_global1. Por lo tanto, <span class="math inline">\(F2021\)</span> por sí solo no es un predictor fuerte para temp_global1.</p>
+<p><strong>Planteamiento del Contraste de Hipótesis</strong></p>
+<p>Calcularemos la distància de Mahalaondis, para ver si si nuestras variables satisfacen una relación <span class="math inline">\(\chi^2_6\)</span>, est 6 es porque tenemos 6 variables cuanitativas.</p>
+<p>Definimos las hipótesis nula y alternativa de la siguiente manera:</p>
+<ul>
+<li><p>H_0: Las variables cuantitativas satisfacen una relación (és decir, los datos en dist_mahalanobis siguen una distribución ji-cuadrado con 6 grados de libertad.)</p></li>
+<li><p>H_1: Las variables cuantitativas no satisfacen ninguna relación (és decir, Los datos en dist_mahalanobis no siguen una distribución ji-cuadrado con 6 grados de libertad.)</p></li>
+</ul>
+<p>Para ello, primero utilizaremos la función de R de mahalaondis. Después, la añadiremos, como una columna nueva a nuestra tabla combinada. Después, crearemos una matriz transpuesta y calcukaremos de igual forma la distancia de mahalaondis tranformada, y la añadiremos también a nuestra tabla combinada, es decir la tabla con la que estaos trabajando.</p>
+<p>Ahora, vamos a visualizar el histograma para la distancia de Mahalanobis original.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Entrega_Taller_Repaso_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Como vemos, la distancia de Mahalanobis original intenta parecer-se un poco a una distribución <span class="math inline">\(\chi^2_6\)</span>, aunque hay una barra que descuadra, pero, en cambio, la transformada no se parece en nada. Hagamos la prueba estadística para ver si podemos confirmar la distribución <span class="math inline">\(\chi^2_6\)</span>.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Asymptotic one-sample Kolmogorov-Smirnov test
+
+data:  dist_mahalanobis
+D = 0.13821, p-value = 0.009511
+alternative hypothesis: two-sided</code></pre>
+</div>
+</div>
+<p>Como el <span class="math inline">\(p-value&lt;0.05\)</span>, entonces tenemos los datos de dist_mahalanobis no siguen una distribución ji-cuadrado con 6 grados de libertad, ya que tenemos suficiente evidencia para rechazar la hipótesis nula. Esto sugiere que los datos no se ajustan bien a una distribución ji-cuadrado, por lo que puede ser necesario considerar otro modelo o verificar si existen problemas en los datos o en los supuestos del análisis. Esto era predicible, ya que las dos variables que hemos añadido de la tabla2 no siguen una distribución normal multivariante.</p>
+<p>Vamos a realizar otro contraste de hipótesis</p>
+<p><strong>Planteamiento del Contraste de Hipótesis</strong></p>
+<p>Queremos evaluar si existe una diferencia significativa en el vector de medias de las variables climáticas cuantitativas (<code>temp_global</code>, <code>dias_calor</code>, <code>dias_lluvia</code>, <code>F2021</code> Y <code>F2022</code>) entre dos tipos de eventos climáticos: “Ola de Calor” y “Sequía”.</p>
+<p><em>Planteamiento del Contraste de Hipótesis</em></p>
+<p>Definimos las hipótesis nula y alternativa de la siguiente manera:</p>
+<p><span class="math display">\[
+H_0: \mu_{\text{Ola de Calor}} = \mu_{\text{Sequía}}
+\]</span></p>
+<p><span class="math display">\[
+H_1: \mu_{\text{Ola de Calor}} \neq \mu_{\text{Sequía}}
+\]</span></p>
+<p>Donde: - ( ) es el vector de medias de las variables cuantitativas para los eventos de tipo “Ola de Calor”. - ( ) es el vector de medias de las variables cuantitativas para los eventos de tipo “Sequía”.</p>
+<p>En este contraste de hipótesis, usamos la prueba de Hotelling’s ( T^2 ) para evaluar si existe una diferencia significativa entre los vectores de medias multivariantes.</p>
+<p><strong>Ejecución del Contraste de Hipótesis en R</strong></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Test stat:  0.54459 
+Numerator df:  6 
+Denominator df:  60 
+P-value:  0.9976 </code></pre>
+</div>
+</div>
+<p><strong>Interpretación de Resultados</strong> Según el resultado del contraste de Hotelling:</p>
+<p>Si <span class="math inline">\(p_{valor} &lt; 0.05\)</span>: Rechazamos la hipótesis nula y concluimos que existe una diferencia significativa en el vector de medias para los eventos de tipo “Ola de Calor” y “Sequía”. Si <span class="math inline">\(p_{valor} ≥ 0.05\)</span>: No rechazamos la hipótesis nula, lo cual indica que no encontramos evidencia suficiente para afirmar que las medias de las variables cuantitativas son diferentes entre los dos tipos de eventos.</p>
+<p>Por lo tanto, como el p_valor es <span class="math inline">\(0.9672\)</span>, tenemos que no podemos rechazar la hipotesis nula.Esto significa que no hay evidencia estadística suficiente para afirmar que las medias de las variables cuantitativas son significativamente diferentes entre los dos tipos de eventos (“Ola de Calor” y “Sequía”).</p>
+<p>Aunque el valor p es alto, es importante recordar que esta conclusión depende de la calidad de los datos, el tamaño de la muestra y los supuestos del modelo.</p>
+</section>
+<section id="conclusiones-i-recomendaciones" class="level1">
+<h1>Conclusiones i Recomendaciones</h1>
+<p>Es importante considerar que los resultado de los dos <strong>Contrastes de hipótesis</strong> no descartan posibles diferencias en otros aspectos o bajo otros contextos; simplemente reflejan que, las variables utilizadas no permiten distinguir entre “Ola de Calor” y “Sequía” de manera significativa, o nos afirman que tengan una relación las variables cuantitativas.</p>
+<p>Recomendaria revisar el tamaño de la muestra, verificar los supuestos del modelo y, en futuros estudios, considerar variables adicionales o enfoques alternativos para obtener una comprensión más completa de las diferencias entre estos fenómenos climáticos. Es decir, al ser la tabla 1 una muestra aleatoria y la otra real, a la hora de concluïr no hemos podido sacar conclusiones claras.</p>
+</section>
+<section id="bibliografía" class="level1">
+<h1>Bibliografía</h1>
+<ul>
+<li>Chatgpt</li>
+<li><a href="https://bookdown.org/ddiannae/curso-rdata/uniones-para-mutar.html">url-uniones_mutar</a></li>
+<li><a href="https://aprender-uib.github.io/AD/">libro_analisidatos</a></li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
